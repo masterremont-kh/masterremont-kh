@@ -221,7 +221,6 @@ async function submitLeadForm(form) {
   if (submitButton) submitButton.disabled = true;
 
   const payload = Object.fromEntries(new FormData(form).entries());
-};
 
   try {
     const response = await fetch(form.action, {
