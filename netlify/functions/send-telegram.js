@@ -24,7 +24,7 @@ exports.handler = async (event) => {
 
 👤 Имя: ${data.name || "-"}
 📞 Телефон: ${data.phone || "-"}
-🛠 Услуга: ${data.service || "-"}
+🛠 Услуга: ${data.service || data.repair_type || "-"}
 💬 Комментарий: ${data.message || "-"}
     `;
 
