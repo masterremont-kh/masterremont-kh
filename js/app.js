@@ -220,7 +220,12 @@ async function submitLeadForm(form) {
   submitButton?.classList.add('is-submitting');
   if (submitButton) submitButton.disabled = true;
 
-  const payload = Object.fromEntries(new FormData(form).entries());
+  const formData = Object.fromEntries(new FormData(form).entries());
+
+const payload = {
+  ...formData,
+  service: formData.repair_type
+};
 
   try {
     const response = await fetch(form.action, {
