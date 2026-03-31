@@ -1,0 +1,13 @@
+1. Upload this project to Netlify.
+2. In Netlify site settings add environment variables:
+   TELEGRAM_BOT_TOKEN=your_bot_token
+   TELEGRAM_CHAT_ID=your_chat_id
+3. Trigger a new deploy after saving the variables.
+4. Test the form on the site.
+5. Optional test URL:
+   /.netlify/functions/send-telegram
+   It should return Method not allowed in browser GET request.
+
+Important:
+- This build uses Netlify Functions, not PHP.
+- send_lead.php and telegram_config.php are no longer needed on Netlify.
