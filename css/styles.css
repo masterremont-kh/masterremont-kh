@@ -108,3 +108,21 @@ button,input,select,textarea{font:inherit}
 .form-status.is-loading{color:var(--muted)}
 .hp-field{position:absolute !important;left:-9999px !important;opacity:0 !important;pointer-events:none !important;height:0 !important;width:0 !important}
 button.is-submitting{opacity:.75;pointer-events:none}
+
+
+.chat-widget{
+  width:320px;height:500px;background:#111;color:#fff;
+  border:1px solid #d4a84f;border-radius:15px;
+  position:fixed;right:20px;bottom:20px;
+  display:flex;flex-direction:column;z-index:9999
+}
+.chat-header{padding:10px;color:#d4a84f;border-bottom:1px solid #d4a84f}
+.chat-body{flex:1;padding:10px;overflow-y:auto}
+.chat-message{margin-bottom:8px;padding:8px;border-radius:10px}
+.bot{background:#222}
+.user{background:#d4a84f;color:#000;text-align:right}
+.chat-buttons{padding:8px}
+.chat-quick-btn{margin:2px;padding:6px 10px;border:1px solid #d4a84f;background:none;color:#d4a84f;border-radius:10px;cursor:pointer}
+.chat-input-wrap{display:flex}
+.chat-input-wrap input{flex:1;padding:8px;border:none}
+.chat-input-wrap button{background:#d4a84f;border:none}
