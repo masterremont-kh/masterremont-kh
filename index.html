@@ -299,17 +299,31 @@
 
   <script src="js/app.js"></script>
 
-<div class="chat-widget">
-  <div class="chat-header">Master Remont Kh</div>
-  <div class="chat-body" id="chatBody"></div>
-  <div class="chat-buttons" id="chatButtons"></div>
-  <div class="chat-input-wrap">
-    <input type="text" id="chatInput" placeholder="Введите сообщение...">
-    <button onclick="sendMessage()">Отправить</button>
-  </div>
-</div>
+  <button class="chat-launcher" id="chatLauncher" type="button" aria-label="Открыть чат">
+    <span class="chat-launcher-dot"></span>
+    <span id="chatLauncherText">Чат</span>
+  </button>
 
-<script src="js/chat.js"></script>
+  <div class="chat-widget compact" id="chatWidget" aria-hidden="true">
+    <div class="chat-header">
+      <div class="chat-title-wrap">
+        <strong id="chatTitle">Master Remont Kh</strong>
+        <span id="chatSubtitle">Онлайн-консультант</span>
+      </div>
+      <div class="chat-header-actions">
+        <button class="chat-minimize" id="chatMinimize" type="button" aria-label="Свернуть чат">—</button>
+        <button class="chat-close" id="chatClose" type="button" aria-label="Закрыть чат">×</button>
+      </div>
+    </div>
+    <div class="chat-body" id="chatBody"></div>
+    <div class="chat-buttons" id="chatButtons"></div>
+    <div class="chat-input-wrap">
+      <input type="text" id="chatInput" placeholder="Введите сообщение...">
+      <button type="button" onclick="sendMessage()" id="chatSendBtn">Отправить</button>
+    </div>
+  </div>
+
+  <script src="js/chat.js"></script>
 
 </body>
 </html>
