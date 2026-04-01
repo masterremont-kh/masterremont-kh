@@ -299,31 +299,296 @@
 
   <script src="js/app.js"></script>
 
-  <button class="chat-launcher" id="chatLauncher" type="button" aria-label="Открыть чат" onclick="openChat()">
+  <style>
+    .chat-launcher{
+      position:fixed;right:10px;bottom:10px;z-index:99998;
+      display:inline-flex;align-items:center;gap:8px;min-height:42px;
+      padding:0 14px;border:1px solid rgba(212,168,79,.55);border-radius:999px;
+      background:rgba(212,168,79,.88);color:#111;cursor:pointer;font-weight:800;
+      box-shadow:0 10px 24px rgba(0,0,0,.25);backdrop-filter:blur(8px);
+      user-select:none;-webkit-tap-highlight-color:transparent;
+    }
+    .chat-launcher-dot{width:8px;height:8px;border-radius:50%;background:#111}
+    .chat-widget{
+      position:fixed;right:10px;bottom:60px;z-index:99999;
+      width:min(310px, calc(100vw - 20px));height:min(520px, 62vh);
+      background:rgba(13,13,15,.92);border:1px solid rgba(212,168,79,.30);
+      border-radius:18px;overflow:hidden;display:none;flex-direction:column;
+      box-shadow:0 20px 48px rgba(0,0,0,.34);backdrop-filter:blur(10px)
+    }
+    .chat-widget.open{display:flex}
+    .chat-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;background:rgba(17,18,22,.86);border-bottom:1px solid rgba(212,168,79,.22)}
+    .chat-title-wrap{display:flex;flex-direction:column;gap:2px}
+    .chat-title-wrap strong{color:#d4a84f;font-size:1rem}
+    .chat-title-wrap span{color:#b3b3b9;font-size:.78rem}
+    .chat-header-actions{display:flex;gap:8px}
+    .chat-close,.chat-minimize{width:32px;height:32px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(21,22,26,.88);color:#fff;font-size:1.15rem;cursor:pointer}
+    .chat-body{flex:1;padding:12px;overflow-y:auto;display:flex;flex-direction:column;gap:9px}
+    .chat-message{max-width:86%;padding:10px 12px;border-radius:15px;line-height:1.42;font-size:13px;word-break:break-word}
+    .chat-message.bot{align-self:flex-start;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06);color:#fff}
+    .chat-message.user{align-self:flex-end;background:rgba(212,168,79,.92);color:#111;font-weight:700}
+    .chat-message.typing{opacity:.72;font-style:italic}
+    .chat-buttons{padding:8px 12px 2px;display:flex;flex-wrap:wrap;gap:7px}
+    .chat-quick-btn{padding:7px 11px;border:1px solid rgba(212,168,79,.72);background:transparent;color:#d4a84f;border-radius:999px;cursor:pointer;font-size:12px}
+    .chat-quick-btn:hover{background:rgba(212,168,79,.10)}
+    .chat-input-wrap{display:flex;align-items:stretch;border-top:1px solid rgba(255,255,255,.08);background:rgba(17,18,22,.82);padding:9px;gap:8px}
+    .chat-input-wrap input{flex:1;min-width:0;border:1px solid rgba(255,255,255,.08);background:rgba(11,12,16,.86);color:#fff;padding:11px 12px;border-radius:12px;outline:none;font-size:13px}
+    .chat-input-wrap button{border:0;padding:0 14px;border-radius:12px;background:rgba(212,168,79,.90);color:#111;font-weight:800;cursor:pointer;white-space:nowrap;font-size:13px}
+  </style>
+
+  <button class="chat-launcher" id="chatLauncher" type="button">
     <span class="chat-launcher-dot"></span>
     <span id="chatLauncherText">Чат</span>
   </button>
 
-  <div class="chat-widget compact" id="chatWidget" aria-hidden="true">
+  <div class="chat-widget" id="chatWidget" aria-hidden="true">
     <div class="chat-header">
       <div class="chat-title-wrap">
-        <strong id="chatTitle">Master Remont Kh</strong>
+        <strong>Master Remont Kh</strong>
         <span id="chatSubtitle">Онлайн-консультант</span>
       </div>
       <div class="chat-header-actions">
-        <button class="chat-minimize" id="chatMinimize" type="button" aria-label="Свернуть чат" onclick="closeChat()">—</button>
-        <button class="chat-close" id="chatClose" type="button" aria-label="Закрыть чат" onclick="closeChat()">×</button>
+        <button class="chat-minimize" id="chatMinimize" type="button">—</button>
+        <button class="chat-close" id="chatClose" type="button">×</button>
       </div>
     </div>
     <div class="chat-body" id="chatBody"></div>
     <div class="chat-buttons" id="chatButtons"></div>
     <div class="chat-input-wrap">
       <input type="text" id="chatInput" placeholder="Введите сообщение...">
-      <button type="button" onclick="sendMessage()" id="chatSendBtn">Отправить</button>
+      <button type="button" id="chatSendBtn">Отправить</button>
     </div>
   </div>
 
-  <script src="js/chat.js"></script>
+  <script>
+  (function(){
+    const $ = (id) => document.getElementById(id);
+    const chatWidget = $("chatWidget");
+    const chatLauncher = $("chatLauncher");
+    const chatMinimize = $("chatMinimize");
+    const chatClose = $("chatClose");
+    const chatBody = $("chatBody");
+    const chatButtons = $("chatButtons");
+    const chatInput = $("chatInput");
+    const chatSendBtn = $("chatSendBtn");
+    const chatLauncherText = $("chatLauncherText");
+    const chatSubtitle = $("chatSubtitle");
+
+    const botState = { step:null, started:false, data:{name:"",phone:"",service:"",area:""} };
+
+    const tr = {
+      ru: {
+        launcher:"Чат", subtitle:"Онлайн-консультант", input:"Введите сообщение...", send:"Отправить", typing:"Печатает...",
+        greet:"Здравствуйте! 👋\nПоможем с ремонтом, расчётом стоимости и заявкой без заполнения формы. Что вас интересует?",
+        main:["Узнать стоимость","Виды ремонта","Заявка","Контакты"],
+        repairs:["Косметический","Капитальный","Дизайнерский"],
+        price:"Стоимость ремонта зависит от типа и площади.\n\n• Косметический — от 3500 грн/м²\n• Капитальный — от 6000 грн/м²\n• Дизайнерский — от 8000 грн/м²\n\nМогу сразу оформить заявку и отправить её из чата.",
+        repairsText:"Мы выполняем:\n\n• Косметический\n• Капитальный\n• Дизайнерский\n\nКакой вариант вас интересует?",
+        contact:"📞 +38 (095) 384-31-01\n\nТакже можно оставить заявку прямо в чате.",
+        leadStart:"Хорошо 👌\nОформим заявку прямо в чате.\n\nНапишите, пожалуйста, ваше имя.",
+        askPhone:"Спасибо. Теперь напишите ваш номер телефона.",
+        askService:"Выберите тип ремонта.",
+        askArea:"Отлично. Теперь напишите площадь объекта в м².",
+        invalidPhone:"Похоже, номер введён не полностью. Напишите телефон ещё раз, например: +380951234567",
+        invalidArea:"Введите площадь числом, например: 45",
+        checking:(d)=>`Проверяю данные:\n\nИмя: ${d.name}\nТелефон: ${d.phone}\nРемонт: ${d.service}\nПлощадь: ${d.area} м²\n\nОтправляю заявку...`,
+        sent:(d)=>`Готово ✅\n\nЗаявка отправлена без перехода к форме.\nИмя: ${d.name}\nТелефон: ${d.phone}\nРемонт: ${d.service}\nПлощадь: ${d.area} м²\n\nМы свяжемся с вами в рабочее время.`,
+        fallback:"Не получилось отправить заявку автоматически.\nОткрою основную форму на сайте, чтобы вы могли отправить её обычным способом."
+      },
+      ua: {
+        launcher:"Чат", subtitle:"Онлайн-консультант", input:"Введіть повідомлення...", send:"Надіслати", typing:"Друкує...",
+        greet:"Вітаємо! 👋\nДопоможемо з ремонтом, розрахунком вартості та заявкою без заповнення форми. Що вас цікавить?",
+        main:["Дізнатися вартість","Види ремонту","Заявка","Контакти"],
+        repairs:["Косметичний","Капітальний","Дизайнерський"],
+        price:"Вартість ремонту залежить від типу та площі.\n\n• Косметичний — від 3500 грн/м²\n• Капітальний — від 6000 грн/м²\n• Дизайнерський — від 8000 грн/м²\n\nМожу одразу оформити заявку та надіслати її з чату.",
+        repairsText:"Ми виконуємо:\n\n• Косметичний\n• Капітальний\n• Дизайнерський\n\nЯкий варіант вас цікавить?",
+        contact:"📞 +38 (095) 384-31-01\n\nТакож можна залишити заявку прямо в чаті.",
+        leadStart:"Добре 👌\nОформимо заявку прямо в чаті.\n\nНапишіть, будь ласка, ваше ім'я.",
+        askPhone:"Дякую. Тепер напишіть ваш номер телефону.",
+        askService:"Оберіть тип ремонту.",
+        askArea:"Чудово. Тепер напишіть площу об'єкта в м².",
+        invalidPhone:"Схоже, номер введено не повністю. Напишіть телефон ще раз, наприклад: +380951234567",
+        invalidArea:"Введіть площу числом, наприклад: 45",
+        checking:(d)=>`Перевіряю дані:\n\nІм'я: ${d.name}\nТелефон: ${d.phone}\nРемонт: ${d.service}\nПлоща: ${d.area} м²\n\nНадсилаю заявку...`,
+        sent:(d)=>`Готово ✅\n\nЗаявку відправлено без переходу до форми.\nІм'я: ${d.name}\nТелефон: ${d.phone}\nРемонт: ${d.service}\nПлоща: ${d.area} м²\n\nМи зв'яжемося з вами у робочий час.`,
+        fallback:"Не вдалося автоматично відправити заявку.\nВідкрию основну форму на сайті, щоб ви могли надіслати її звичайним способом."
+      }
+    };
+
+    function lang(){
+      const active = document.querySelector(".lang-btn.active");
+      if (active && active.dataset.lang) return active.dataset.lang === "ua" ? "ua" : "ru";
+      const htmlLang = (document.documentElement.lang || "ru").toLowerCase();
+      return (htmlLang.startsWith("ua") || htmlLang.startsWith("uk")) ? "ua" : "ru";
+    }
+    function T(){ return tr[lang()]; }
+    function applyStatic(){
+      const x = T();
+      chatLauncherText.textContent = x.launcher;
+      chatSubtitle.textContent = x.subtitle;
+      chatInput.placeholder = x.input;
+      chatSendBtn.textContent = x.send;
+    }
+    function addMessage(text, sender="bot"){
+      const msg = document.createElement("div");
+      msg.className = `chat-message ${sender}`;
+      msg.innerHTML = String(text).replace(/\\n/g,"<br>");
+      chatBody.appendChild(msg);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+    function showTyping(cb){
+      const typing = document.createElement("div");
+      typing.className = "chat-message bot typing";
+      typing.textContent = T().typing;
+      chatBody.appendChild(typing);
+      chatBody.scrollTop = chatBody.scrollHeight;
+      setTimeout(()=>{ typing.remove(); cb(); }, 650);
+    }
+    function showButtons(arr){
+      chatButtons.innerHTML = "";
+      arr.forEach((text)=>{
+        const btn = document.createElement("button");
+        btn.className = "chat-quick-btn";
+        btn.type = "button";
+        btn.textContent = text;
+        btn.addEventListener("click", ()=>handleUserMessage(text));
+        chatButtons.appendChild(btn);
+      });
+    }
+    function openChat(){
+      chatWidget.classList.add("open");
+      chatLauncher.style.display = "none";
+      chatWidget.setAttribute("aria-hidden","false");
+      if (!botState.started){
+        botState.started = true;
+        showTyping(()=>{ addMessage(T().greet); showButtons(T().main); });
+      }
+      setTimeout(()=>chatInput.focus(), 100);
+    }
+    function closeChat(){
+      chatWidget.classList.remove("open");
+      chatLauncher.style.display = "inline-flex";
+      chatWidget.setAttribute("aria-hidden","true");
+    }
+    function resetLead(){
+      botState.step = null;
+      botState.data = {name:"", phone:"", service:"", area:""};
+    }
+    function startLead(service=""){
+      resetLead();
+      botState.data.service = service;
+      botState.step = "name";
+      showTyping(()=>{ addMessage(T().leadStart); showButtons([]); });
+    }
+    function validPhone(v){ return v.replace(/[^\\d+]/g,"").length >= 10; }
+    function validArea(v){ const n = parseFloat(String(v).replace(",", ".")); return !isNaN(n) && n > 0; }
+    function fillFallback(){
+      const form = document.getElementById("lead-form");
+      if (!form) return;
+      const nameInput = form.querySelector('input[name="name"]');
+      const phoneInput = form.querySelector('input[name="phone"]');
+      const serviceSelect = form.querySelector('select[name="service"]');
+      if (nameInput) nameInput.value = botState.data.name || "";
+      if (phoneInput) phoneInput.value = botState.data.phone || "";
+      if (serviceSelect && botState.data.service){
+        Array.from(serviceSelect.options).forEach(opt=>{
+          if (opt.value.toLowerCase().includes(botState.data.service.toLowerCase())) serviceSelect.value = opt.value;
+        });
+      }
+      form.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+    async function submitLead(){
+      const form = document.getElementById("lead-form");
+      const endpoint = (form && form.getAttribute("action")) || "/.netlify/functions/send-telegram";
+      const params = new URLSearchParams();
+      params.append("source", lang()==="ua" ? "Чат-бот сайту" : "Чат-бот сайта");
+      params.append("page", lang()==="ua" ? "Головна" : "Главная");
+      params.append("website", "");
+      params.append("name", botState.data.name);
+      params.append("phone", botState.data.phone);
+      params.append("service", botState.data.service);
+      params.append("message", (lang()==="ua" ? "Заявка з чату. Площа: " : "Заявка из чата. Площадь: ") + botState.data.area + " м²");
+
+      chatSendBtn.disabled = true; chatInput.disabled = true;
+      try{
+        const res = await fetch(endpoint, {
+          method:"POST",
+          headers:{"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},
+          body: params.toString()
+        });
+        if(!res.ok) throw new Error("HTTP " + res.status);
+        showTyping(()=>{ addMessage(T().sent(botState.data)); showButtons(lang()==="ua" ? ["Дізнатися вартість","Контакти","Нова заявка"] : ["Узнать стоимость","Контакты","Новая заявка"]); });
+        botState.step = "done";
+      }catch(e){
+        showTyping(()=>{ addMessage(T().fallback); showButtons(lang()==="ua" ? ["Прокрутити до форми","Контакти"] : ["Прокрутить к форме","Контакты"]); });
+        fillFallback();
+      }finally{
+        chatSendBtn.disabled = false; chatInput.disabled = false;
+      }
+    }
+    function finishLead(){
+      showTyping(()=>{ addMessage(T().checking(botState.data)); showButtons([]); });
+      submitLead();
+    }
+    function handleLeadStep(raw){
+      const text = raw.trim();
+      if (botState.step === "name"){
+        botState.data.name = text; botState.step = "phone";
+        showTyping(()=>addMessage(T().askPhone)); return true;
+      }
+      if (botState.step === "phone"){
+        if (!validPhone(text)){ showTyping(()=>addMessage(T().invalidPhone)); return true; }
+        botState.data.phone = text;
+        if (botState.data.service){ botState.step = "area"; showTyping(()=>addMessage(T().askArea)); }
+        else { botState.step = "service"; showTyping(()=>{ addMessage(T().askService); showButtons(T().repairs); }); }
+        return true;
+      }
+      if (botState.step === "service"){
+        botState.data.service = text; botState.step = "area";
+        showTyping(()=>{ addMessage(T().askArea); showButtons([]); }); return true;
+      }
+      if (botState.step === "area"){
+        if (!validArea(text)){ showTyping(()=>addMessage(T().invalidArea)); return true; }
+        botState.data.area = String(text).replace(",", ".").trim();
+        finishLead(); return true;
+      }
+      return false;
+    }
+    function botReply(message){
+      const text = message.toLowerCase().trim();
+      if (handleLeadStep(message)) return;
+
+      if (text.includes("цена") || text.includes("стоимость") || text.includes("прайс") || text.includes("сколько стоит") || text.includes("узнать стоимость") || text.includes("вартість") || text.includes("скільки коштує") || text.includes("дізнатися вартість")){
+        showTyping(()=>{ addMessage(T().price); showButtons(lang()==="ua" ? ["Косметичний","Капітальний","Дизайнерський","Заявка"] : ["Косметический","Капитальный","Дизайнерский","Заявка"]); }); return;
+      }
+      if (text.includes("косметический") || text.includes("косметичний")){ showTyping(()=>addMessage(lang()==="ua" ? "Косметичний ремонт обрано." : "Косметический ремонт выбран.")); startLead(lang()==="ua" ? "Косметичний" : "Косметический"); return; }
+      if (text.includes("капитальный") || text.includes("капітальний")){ showTyping(()=>addMessage(lang()==="ua" ? "Капітальний ремонт обрано." : "Капитальный ремонт выбран.")); startLead(lang()==="ua" ? "Капітальний" : "Капитальный"); return; }
+      if (text.includes("дизайнерский") || text.includes("дизайнерський")){ showTyping(()=>addMessage(lang()==="ua" ? "Дизайнерський ремонт обрано." : "Дизайнерский ремонт выбран.")); startLead(lang()==="ua" ? "Дизайнерський" : "Дизайнерский"); return; }
+      if (text.includes("виды ремонта") || text.includes("види ремонту") || text === "ремонт"){ showTyping(()=>{ addMessage(T().repairsText); showButtons(T().repairs); }); return; }
+      if (text.includes("заявка") || text.includes("нова заявка")){ startLead(); return; }
+      if (text.includes("контакт")){ showTyping(()=>{ addMessage(T().contact); showButtons(lang()==="ua" ? ["Заявка","Дізнатися вартість"] : ["Заявка","Узнать стоимость"]); }); return; }
+      if (text.includes("прокрутить к форме") || text.includes("прокрутити до форми")){ fillFallback(); return; }
+      showTyping(()=>{ addMessage(lang()==="ua" ? "Вітаю! Я допоможу зорієнтуватися у вартості та прийняти заявку прямо в чаті." : "Здравствуйте! Я помогу сориентироваться по стоимости и принять заявку прямо в чате."); showButtons(T().main); });
+    }
+    function handleUserMessage(text){
+      if (!text || !text.trim()) return;
+      addMessage(text, "user");
+      botReply(text);
+    }
+
+    chatLauncher.addEventListener("click", openChat);
+    chatMinimize.addEventListener("click", closeChat);
+    chatClose.addEventListener("click", closeChat);
+    chatSendBtn.addEventListener("click", ()=>{ const text = chatInput.value.trim(); if(!text) return; chatInput.value=""; handleUserMessage(text); });
+    chatInput.addEventListener("keydown", (e)=>{ if(e.key === "Enter"){ e.preventDefault(); chatSendBtn.click(); }});
+
+    document.querySelectorAll(".lang-btn").forEach(btn=>{
+      btn.addEventListener("click", ()=>setTimeout(applyStatic, 60));
+    });
+
+    applyStatic();
+  })();
+  </script>
 
 </body>
 </html>
