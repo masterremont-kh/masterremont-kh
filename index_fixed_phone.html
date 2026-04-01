@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MasterRemont.Kh — ремонт квартир и домов под ключ в Харькове</title>
+  <meta name="description" content="Ремонт квартир и домов под ключ в Харькове. Косметический и дизайнерский ремонт, смета, реальные объекты, заявки в Telegram.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header" id="top">
+    <div class="container nav-wrap">
+      <a class="brand brand-text" href="#top"><span class="brand-main">MasterRemont<span class="kh">.Kh</span></span><span class="brand-sub">Ремонт квартир и домов в Харькове</span></a>
+
+      <nav class="desktop-nav">
+        <a href="#prices" data-i18n="nav.prices">Цены</a>
+        <a href="#works" data-i18n="nav.works">Наши работы</a>
+        <a href="#advantages" data-i18n="nav.advantages">Почему мы</a>
+        <a href="#price-list" data-i18n="nav.priceList">Прайс</a>
+        <a href="#contacts" data-i18n="nav.contacts">Контакты</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="lang-switch" aria-label="Language switcher">
+          <button class="lang-btn active" data-lang="ru">RU</button>
+          <button class="lang-btn" data-lang="ua">UA</button>
+        </div>
+        <div class="contact-quick">
+          <a class="phone" href="tel:+380953843101">+38 (095) 384-31-01</a>
+          <span data-i18n="header.schedule">Ежедневно с 10:00 до 19:00</span>
+        </div>
+        <button class="burger" id="burger" aria-label="Open menu"><span></span></button>
+      </div>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#prices" data-i18n="nav.prices">Цены</a>
+      <a href="#works" data-i18n="nav.works">Наши работы</a>
+      <a href="#advantages" data-i18n="nav.advantages">Почему мы</a>
+      <a href="#price-list" data-i18n="nav.priceList">Прайс</a>
+      <a href="#contacts" data-i18n="nav.contacts">Контакты</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow" data-i18n="hero.kicker">Премиальный ремонт под ключ</span>
+          <h1 data-i18n="hero.title">Ремонт квартир и домов в Харькове
+с понятной сметой и гарантией 1 год</h1>
+          <p class="hero-text" data-i18n="hero.text">Работаем по договору, показываем реальные объекты и держим связь в Telegram на каждом этапе.</p>
+
+          <div class="hero-price-lines">
+            <div><strong data-i18n="hero.price1Label">Косметический ремонт</strong> <span data-i18n="hero.price1Value">3500–6000 грн/м²</span></div>
+            <div><strong data-i18n="hero.price2Label">Капитальный ремонт</strong> <span data-i18n="hero.price2Value">от 6000 грн/м²</span></div>
+            <div><strong data-i18n="hero.price3Label">Дизайнерский ремонт</strong> <span data-i18n="hero.price3Value">от 8000 грн/м²</span></div>
+          </div>
+
+          <div class="hero-actions">
+            <a class="btn btn-gold" href="#lead-form" data-i18n="hero.ctaPrimary">Получить расчет</a>
+            <a class="btn btn-outline" href="#works" data-i18n="hero.ctaSecondary">Смотреть работы</a>
+          </div>
+
+          <ul class="hero-bullets">
+            <li data-i18n="hero.b1">Работаем по Харькову и области</li>
+            <li data-i18n="hero.b2">Реальные фото объектов без стока</li>
+            <li data-i18n="hero.b3">Заявки сразу приходят в Telegram</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-card hero-card-main">
+            <img src="images/obj2/01.jpg" alt="Дизайнерский ремонт, Харьков, ул. Делегатская">
+          </div>
+          <div class="hero-card hero-card-side">
+            <img src="images/obj1/01.jpg" alt="Кухня после ремонта, Харьков, ул. Достоевского">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lead-strip">
+      <div class="container lead-strip-grid">
+        <div>
+          <h2 data-i18n="lead.title">Оставьте номер — отправим смету и свяжемся в удобное время</h2>
+          <p data-i18n="lead.text">Заявка уходит в Telegram и на почту. Обычно отвечаем в рабочее время в течение 10–20 минут.</p>
+        </div>
+        <form id="lead-form" class="lead-form lead-capture-form" action="/.netlify/functions/send-telegram" method="post" novalidate>
+          <input type="hidden" name="source" value="Главная форма сайта">
+          <input type="hidden" name="page" value="Главная">
+          <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="text" name="name" placeholder="Ваше имя" data-placeholder-ru="Ваше имя" data-placeholder-ua="Ваше ім'я" required>
+          <input type="tel" name="phone" placeholder="Телефон" data-placeholder-ru="Телефон" data-placeholder-ua="Телефон" required>
+          <select name="service">
+            <option value="Косметический" data-i18n="form.optionCosmetic">Косметический</option>
+            <option value="Капитальный" data-i18n="form.optionCapital">Капитальный</option>
+            <option value="Дизайнерский" data-i18n="form.optionDesign">Дизайнерский</option>
+          </select>
+          <button class="btn btn-gold" type="submit" data-i18n="form.submit">Отправить заявку</button>
+          <p class="form-note" data-i18n="form.note">Нажимая кнопку, вы соглашаетесь на обработку контактов для обратной связи.</p>
+          <div class="form-status" id="formStatus" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="section prices" id="prices">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow" data-i18n="prices.kicker">Стоимость</span>
+          <h2 data-i18n="prices.title">Цены на ремонт</h2>
+        </div>
+
+        <div class="price-cards">
+          <article class="price-card">
+            <h3 data-i18n="prices.card1Title">Косметический ремонт</h3>
+            <div class="price-value" data-i18n="prices.card1Value">3500–6000 грн/м²</div>
+            <p data-i18n="prices.card1Text">Подходит для обновления квартиры без сложной перепланировки: стены, потолки, пол, покраска, обои, плитка, ламинат.</p>
+          </article>
+          <article class="price-card featured">
+            <h3 data-i18n="prices.card2Title">Капитальный ремонт</h3>
+            <div class="price-value" data-i18n="prices.card2Value">от 6000 грн/м²</div>
+            <p data-i18n="prices.card2Text">Полный цикл работ: демонтаж, электрика, сантехника, выравнивание стен, стяжка пола, плитка и отделка.</p>
+          </article>
+          <article class="price-card">
+            <h3 data-i18n="prices.card3Title">Дизайнерский ремонт</h3>
+            <div class="price-value" data-i18n="prices.card3Value">от 8000 грн/м²</div>
+            <p data-i18n="prices.card3Text">Индивидуальный дизайн, сложный свет, декоративные решения, инженерия и премиальные материалы.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section works" id="works">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow" data-i18n="works.kicker">Портфолио</span>
+          <h2 data-i18n="works.title">Реальные объекты</h2>
+        </div>
+
+        <div class="projects-grid">
+          <article class="project-card">
+            <div class="project-cover"><img src="images/obj1/01.jpg" alt="Однокомнатная квартира 35,5 м², Харьков, ул. Достоевского"></div>
+            <div class="project-body">
+              <h3 data-i18n="project1.title">Однокомнатная квартира • 35,5 м²</h3>
+              <p data-i18n="project1.meta">г. Харьков, ул. Достоевского • дизайнерский ремонт</p>
+              <div class="project-price" data-i18n="project1.price">от 8000 грн/м²</div>
+              <button class="btn btn-outline open-gallery" data-gallery="obj1" data-i18n="works.viewPhotos">Смотреть фото</button>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-cover"><img src="images/obj2/01.jpg" alt="Дом 130 м², Харьков, ул. Делегатская"></div>
+            <div class="project-body">
+              <h3 data-i18n="project2.title">Дом • 130 м²</h3>
+              <p data-i18n="project2.meta">г. Харьков, ул. Делегатская • дизайнерский ремонт</p>
+              <div class="project-price" data-i18n="project2.price">от 8000 грн/м²</div>
+              <button class="btn btn-outline open-gallery" data-gallery="obj2" data-i18n="works.viewPhotos">Смотреть фото</button>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-cover"><img src="images/obj3/01.jpg" alt="Дом 80 м², Харьков, Алешки"></div>
+            <div class="project-body">
+              <h3 data-i18n="project3.title">Дом • 80 м²</h3>
+              <p data-i18n="project3.meta">г. Харьков, Алешки • современный ремонт под ключ • 2025</p>
+              <div class="project-price" data-i18n="project3.price">от 6000 грн/м²</div>
+              <button class="btn btn-outline open-gallery" data-gallery="obj3" data-i18n="works.viewPhotos">Смотреть фото</button>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-cover"><img src="images/obj4/01.jpg" alt="Квартира 77 м², Харьков, ул. Мира"></div>
+            <div class="project-body">
+              <h3 data-i18n="project4.title">Квартира • 77 м²</h3>
+              <p data-i18n="project4.meta">г. Харьков, ул. Мира • современный ремонт под ключ • 2025</p>
+              <div class="project-price" data-i18n="project4.price">от 6000 грн/м²</div>
+              <button class="btn btn-outline open-gallery" data-gallery="obj4" data-i18n="works.viewPhotos">Смотреть фото</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section advantages" id="advantages">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow" data-i18n="adv.kicker">Подход</span>
+          <h2 data-i18n="adv.title">Почему выбирают нас</h2>
+        </div>
+        <div class="adv-grid">
+          <article><h3 data-i18n="adv.a1t">Фиксируем смету</h3><p data-i18n="adv.a1d">До старта обсуждаем объем работ и ориентир по бюджету, чтобы не было сюрпризов в процессе.</p></article>
+          <article><h3 data-i18n="adv.a2t">Реальные фото</h3><p data-i18n="adv.a2d">В портфолио — только наши объекты по Харькову и области, без стоковых интерьеров.</p></article>
+          <article><h3 data-i18n="adv.a3t">Связь в Telegram</h3><p data-i18n="adv.a3d">Заявки, вопросы и согласования можно вести прямо в Telegram — быстро и удобно.</p></article>
+          <article><h3 data-i18n="adv.a4t">Под ключ</h3><p data-i18n="adv.a4d">От демонтажа и инженерии до плитки, покраски, сантехники и финальной сдачи объекта.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section price-list" id="price-list">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow" data-i18n="plist.kicker">Документ</span>
+          <h2 data-i18n="plist.title">Прайс-лист 2026</h2>
+        </div>
+        
+<div class="plist-intro">
+          <p data-i18n="plist.intro">Прайс встроен в сайт в том же стиле: основные разделы вынесены в отдельные карточки, а полный Excel-файл доступен для скачивания.</p>
+        </div>
+        <div class="plist-intro">
+          <p data-i18n="plist.intro">Ниже — три основные группы работ из актуального прайса. Полную версию можно скачать в PDF или открыть редактируемый Excel.</p>
+        </div>
+        <div class="plist-grid themed">
+          <div class="plist-card category-card">
+            <span class="cat-badge" data-i18n="plist.badge1">Демонтаж</span>
+            <h3 data-i18n="plist.card1Title">Демонтаж</h3>
+            <ul>
+              <li><span data-i18n="plist.i1">Демонтаж штукатурки</span><strong>150 грн/м²</strong></li>
+              <li><span data-i18n="plist.i2">Демонтаж плитки</span><strong>160 грн/м²</strong></li>
+              <li><span data-i18n="plist.i3">Демонтаж ламінату</span><strong>85 грн/м²</strong></li>
+            </ul>
+          </div>
+          <div class="plist-card category-card">
+            <span class="cat-badge" data-i18n="plist.badge2">Плиточные</span>
+            <h3 data-i18n="plist.card2Title2">Плиточные работы</h3>
+            <ul>
+              <li><span data-i18n="plist.i4">Укладка керамической плитки</span><strong>от 650 грн/м²</strong></li>
+              <li><span data-i18n="plist.i5">Укладка керамогранита до 600 мм</span><strong>750 грн/м²</strong></li>
+              <li><span data-i18n="plist.i6">Затирка швов простая</span><strong>125 грн/м²</strong></li>
+            </ul>
+          </div>
+          <div class="plist-card category-card">
+            <span class="cat-badge" data-i18n="plist.badge3">Малярные</span>
+            <h3 data-i18n="plist.card3Title">Малярные работы</h3>
+            <ul>
+              <li><span data-i18n="plist.i7">Грунтовка поверхности перед шпаклеванием</span><strong>30 грн/м²</strong></li>
+              <li><span data-i18n="plist.i8">Подготовка стены под финишную покраску</span><strong>360 грн/м²</strong></li>
+              <li><span data-i18n="plist.i9">Покраска стен</span><strong>160 грн/м²</strong></li>
+            </ul>
+          </div>
+          <div class="plist-card download-card">
+            <span class="cat-badge" data-i18n="plist.badge4">PDF</span>
+            <h3 data-i18n="plist.card4Title">Полный прайс-лист</h3>
+            <p data-i18n="plist.card4Text">Скачайте PDF-версию в стиле сайта или откройте редактируемый Excel. Прайс можно также запросить в Telegram.</p>
+            <div class="download-actions">
+              <a class="btn btn-gold" href="files/price-list-2026.pdf" download data-i18n="plist.downloadPdf">Скачать PDF</a>
+              
+              <a class="btn btn-outline" href="https://t.me/masterremont_kh_bot" target="_blank" rel="noopener" data-i18n="plist.telegram">Получить в Telegram</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contacts" id="contacts">
+      <div class="container contacts-grid">
+        <div>
+          <div class="section-head left">
+            <span class="eyebrow" data-i18n="contacts.kicker">Связаться</span>
+            <h2 data-i18n="contacts.title">Контакты</h2>
+          </div>
+          <div class="contact-list">
+            <a href="tel:+380953843101">+38 (095) 384-31-01</a>
+            <a href="mailto:masterremont.kh.office@gmail.com">masterremont.kh.office@gmail.com</a>
+            <a href="https://t.me/masterremont_kh_bot" target="_blank" rel="noopener">Telegram: @masterremont_kh_bot</a>
+          </div>
+          <p class="contact-text" data-i18n="contacts.text">Работаем по Харькову и области. Если удобнее, оставьте заявку — ответим в Telegram или перезвоним.</p>
+        </div>
+        <form class="contact-form lead-capture-form" action="/.netlify/functions/send-telegram" method="post" novalidate>
+          <input type="hidden" name="source" value="Форма в контактах">
+          <input type="text" name="name" placeholder="Ваше имя" data-placeholder-ru="Ваше имя" data-placeholder-ua="Ваше ім'я" required>
+          <input type="tel" name="phone" placeholder="Телефон" data-placeholder-ru="Телефон" data-placeholder-ua="Телефон" required>
+          <textarea name="message" rows="4" placeholder="Кратко опишите объект" data-placeholder-ru="Кратко опишите объект" data-placeholder-ua="Коротко опишіть об'єкт"></textarea>
+          <button class="btn btn-gold" type="submit" data-i18n="form.submit">Отправить заявку</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>© <span id="year"></span> MasterRemont.Kh</p>
+      <a href="#top" data-i18n="footer.top">Наверх</a>
+    </div>
+  </footer>
+
+  <div class="gallery-modal" id="galleryModal" aria-hidden="true">
+    <button class="gallery-close" id="galleryClose" aria-label="Close">×</button>
+    <button class="gallery-nav prev" id="galleryPrev" aria-label="Previous">‹</button>
+    <div class="gallery-content">
+      <img id="galleryImage" src="" alt="">
+      <div class="gallery-caption" id="galleryCaption"></div>
+    </div>
+    <button class="gallery-nav next" id="galleryNext" aria-label="Next">›</button>
+  </div>
+
+  <script src="js/app.js"></script>
+
+  <style>
+    .chat-launcher{
+      position:fixed;right:10px;bottom:10px;z-index:99998;
+      display:inline-flex;align-items:center;gap:8px;min-height:42px;
+      padding:0 14px;border:1px solid rgba(212,168,79,.55);border-radius:999px;
+      background:rgba(212,168,79,.88);color:#111;cursor:pointer;font-weight:800;
+      box-shadow:0 10px 24px rgba(0,0,0,.25);backdrop-filter:blur(8px);
+      user-select:none;-webkit-tap-highlight-color:transparent;
+    }
+    .chat-launcher-dot{width:8px;height:8px;border-radius:50%;background:#111}
+    .chat-widget{
+      position:fixed;right:10px;bottom:60px;z-index:99999;
+      width:min(310px, calc(100vw - 20px));height:min(520px, 62vh);
+      background:rgba(13,13,15,.92);border:1px solid rgba(212,168,79,.30);
+      border-radius:18px;overflow:hidden;display:none;flex-direction:column;
+      box-shadow:0 20px 48px rgba(0,0,0,.34);backdrop-filter:blur(10px)
+    }
+    .chat-widget.open{display:flex}
+    .chat-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;background:rgba(17,18,22,.86);border-bottom:1px solid rgba(212,168,79,.22)}
+    .chat-title-wrap{display:flex;flex-direction:column;gap:2px}
+    .chat-title-wrap strong{color:#d4a84f;font-size:1rem}
+    .chat-title-wrap span{color:#b3b3b9;font-size:.78rem}
+    .chat-header-actions{display:flex;gap:8px}
+    .chat-close,.chat-minimize{width:32px;height:32px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(21,22,26,.88);color:#fff;font-size:1.15rem;cursor:pointer}
+    .chat-body{flex:1;padding:12px;overflow-y:auto;display:flex;flex-direction:column;gap:9px}
+    .chat-message{max-width:86%;padding:10px 12px;border-radius:15px;line-height:1.42;font-size:13px;word-break:break-word}
+    .chat-message.bot{align-self:flex-start;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06);color:#fff}
+    .chat-message.user{align-self:flex-end;background:rgba(212,168,79,.92);color:#111;font-weight:700}
+    .chat-message.typing{opacity:.72;font-style:italic}
+    .chat-buttons{padding:8px 12px 2px;display:flex;flex-wrap:wrap;gap:7px}
+    .chat-quick-btn{padding:7px 11px;border:1px solid rgba(212,168,79,.72);background:transparent;color:#d4a84f;border-radius:999px;cursor:pointer;font-size:12px}
+    .chat-quick-btn:hover{background:rgba(212,168,79,.10)}
+    .chat-input-wrap{display:flex;align-items:stretch;border-top:1px solid rgba(255,255,255,.08);background:rgba(17,18,22,.82);padding:9px;gap:8px}
+    .chat-input-wrap input{flex:1;min-width:0;border:1px solid rgba(255,255,255,.08);background:rgba(11,12,16,.86);color:#fff;padding:11px 12px;border-radius:12px;outline:none;font-size:13px}
+    .chat-input-wrap button{border:0;padding:0 14px;border-radius:12px;background:rgba(212,168,79,.90);color:#111;font-weight:800;cursor:pointer;white-space:nowrap;font-size:13px}
+  </style>
+
+  <button class="chat-launcher" id="chatLauncher" type="button">
+    <span class="chat-launcher-dot"></span>
+    <span id="chatLauncherText">Чат</span>
+  </button>
+
+  <div class="chat-widget" id="chatWidget" aria-hidden="true">
+    <div class="chat-header">
+      <div class="chat-title-wrap">
+        <strong>Master Remont Kh</strong>
+        <span id="chatSubtitle">Онлайн-консультант</span>
+      </div>
+      <div class="chat-header-actions">
+        <button class="chat-minimize" id="chatMinimize" type="button">—</button>
+        <button class="chat-close" id="chatClose" type="button">×</button>
+      </div>
+    </div>
+    <div class="chat-body" id="chatBody"></div>
+    <div class="chat-buttons" id="chatButtons"></div>
+    <div class="chat-input-wrap">
+      <input type="text" id="chatInput" placeholder="Введите сообщение...">
+      <button type="button" id="chatSendBtn">Отправить</button>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const $ = (id) => document.getElementById(id);
+    const chatWidget = $("chatWidget");
+    const chatLauncher = $("chatLauncher");
+    const chatMinimize = $("chatMinimize");
+    const chatClose = $("chatClose");
+    const chatBody = $("chatBody");
+    const chatButtons = $("chatButtons");
+    const chatInput = $("chatInput");
+    const chatSendBtn = $("chatSendBtn");
+    const chatLauncherText = $("chatLauncherText");
+    const chatSubtitle = $("chatSubtitle");
+
+    const botState = { step:null, started:false, data:{name:"",phone:"",service:"",area:""} };
+
+    const tr = {
+      ru: {
+        launcher:"Чат", subtitle:"Онлайн-консультант", input:"Введите сообщение...", send:"Отправить", typing:"Печатает...",
+        greet:"Здравствуйте! 👋\nПоможем с ремонтом, расчётом стоимости и заявкой без заполнения формы. Что вас интересует?",
+        main:["Узнать стоимость","Виды ремонта","Заявка","Контакты"],
+        repairs:["Косметический","Капитальный","Дизайнерский"],
+        price:"Стоимость ремонта зависит от типа и площади.\n\n• Косметический — от 3500 грн/м²\n• Капитальный — от 6000 грн/м²\n• Дизайнерский — от 8000 грн/м²\n\nМогу сразу оформить заявку и отправить её из чата.",
+        repairsText:"Мы выполняем:\n\n• Косметический\n• Капитальный\n• Дизайнерский\n\nКакой вариант вас интересует?",
+        contact:"📞 +38 (095) 384-31-01\n\nТакже можно оставить заявку прямо в чате.",
+        leadStart:"Хорошо 👌\nОформим заявку прямо в чате.\n\nНапишите, пожалуйста, ваше имя.",
+        askPhone:"Спасибо. Теперь напишите ваш номер телефона.",
+        askService:"Выберите тип ремонта.",
+        askArea:"Отлично. Теперь напишите площадь объекта в м².",
+        invalidPhone:"Похоже, номер введён не полностью. Напишите телефон ещё раз, например: +380951234567",
+        invalidArea:"Введите площадь числом, например: 45",
+        checking:(d)=>`Проверяю данные:\n\nИмя: ${d.name}\nТелефон: ${d.phone}\nРемонт: ${d.service}\nПлощадь: ${d.area} м²\n\nОтправляю заявку...`,
+        sent:(d)=>`Готово ✅\n\nЗаявка отправлена без перехода к форме.\nИмя: ${d.name}\nТелефон: ${d.phone}\nРемонт: ${d.service}\nПлощадь: ${d.area} м²\n\nМы свяжемся с вами в рабочее время.`,
+        fallback:"Не получилось отправить заявку автоматически.\nОткрою основную форму на сайте, чтобы вы могли отправить её обычным способом."
+      },
+      ua: {
+        launcher:"Чат", subtitle:"Онлайн-консультант", input:"Введіть повідомлення...", send:"Надіслати", typing:"Друкує...",
+        greet:"Вітаємо! 👋\nДопоможемо з ремонтом, розрахунком вартості та заявкою без заповнення форми. Що вас цікавить?",
+        main:["Дізнатися вартість","Види ремонту","Заявка","Контакти"],
+        repairs:["Косметичний","Капітальний","Дизайнерський"],
+        price:"Вартість ремонту залежить від типу та площі.\n\n• Косметичний — від 3500 грн/м²\n• Капітальний — від 6000 грн/м²\n• Дизайнерський — від 8000 грн/м²\n\nМожу одразу оформити заявку та надіслати її з чату.",
+        repairsText:"Ми виконуємо:\n\n• Косметичний\n• Капітальний\n• Дизайнерський\n\nЯкий варіант вас цікавить?",
+        contact:"📞 +38 (095) 384-31-01\n\nТакож можна залишити заявку прямо в чаті.",
+        leadStart:"Добре 👌\nОформимо заявку прямо в чаті.\n\nНапишіть, будь ласка, ваше ім'я.",
+        askPhone:"Дякую. Тепер напишіть ваш номер телефону.",
+        askService:"Оберіть тип ремонту.",
+        askArea:"Чудово. Тепер напишіть площу об'єкта в м².",
+        invalidPhone:"Схоже, номер введено не повністю. Напишіть телефон ще раз, наприклад: +380951234567",
+        invalidArea:"Введіть площу числом, наприклад: 45",
+        checking:(d)=>`Перевіряю дані:\n\nІм'я: ${d.name}\nТелефон: ${d.phone}\nРемонт: ${d.service}\nПлоща: ${d.area} м²\n\nНадсилаю заявку...`,
+        sent:(d)=>`Готово ✅\n\nЗаявку відправлено без переходу до форми.\nІм'я: ${d.name}\nТелефон: ${d.phone}\nРемонт: ${d.service}\nПлоща: ${d.area} м²\n\nМи зв'яжемося з вами у робочий час.`,
+        fallback:"Не вдалося автоматично відправити заявку.\nВідкрию основну форму на сайті, щоб ви могли надіслати її звичайним способом."
+      }
+    };
+
+    function lang(){
+      const active = document.querySelector(".lang-btn.active");
+      if (active && active.dataset.lang) return active.dataset.lang === "ua" ? "ua" : "ru";
+      const htmlLang = (document.documentElement.lang || "ru").toLowerCase();
+      return (htmlLang.startsWith("ua") || htmlLang.startsWith("uk")) ? "ua" : "ru";
+    }
+    function T(){ return tr[lang()]; }
+    function applyStatic(){
+      const x = T();
+      chatLauncherText.textContent = x.launcher;
+      chatSubtitle.textContent = x.subtitle;
+      chatInput.placeholder = x.input;
+      chatSendBtn.textContent = x.send;
+    }
+    function addMessage(text, sender="bot"){
+      const msg = document.createElement("div");
+      msg.className = `chat-message ${sender}`;
+      msg.innerHTML = String(text).replace(/\\n/g,"<br>");
+      chatBody.appendChild(msg);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+    function showTyping(cb){
+      const typing = document.createElement("div");
+      typing.className = "chat-message bot typing";
+      typing.textContent = T().typing;
+      chatBody.appendChild(typing);
+      chatBody.scrollTop = chatBody.scrollHeight;
+      setTimeout(()=>{ typing.remove(); cb(); }, 650);
+    }
+    function showButtons(arr){
+      chatButtons.innerHTML = "";
+      arr.forEach((text)=>{
+        const btn = document.createElement("button");
+        btn.className = "chat-quick-btn";
+        btn.type = "button";
+        btn.textContent = text;
+        btn.addEventListener("click", ()=>handleUserMessage(text));
+        chatButtons.appendChild(btn);
+      });
+    }
+    function openChat(){
+      chatWidget.classList.add("open");
+      chatLauncher.style.display = "none";
+      chatWidget.setAttribute("aria-hidden","false");
+      if (!botState.started){
+        botState.started = true;
+        showTyping(()=>{ addMessage(T().greet); showButtons(T().main); });
+      }
+      setTimeout(()=>chatInput.focus(), 100);
+    }
+    function closeChat(){
+      chatWidget.classList.remove("open");
+      chatLauncher.style.display = "inline-flex";
+      chatWidget.setAttribute("aria-hidden","true");
+    }
+    function resetLead(){
+      botState.step = null;
+      botState.data = {name:"", phone:"", service:"", area:""};
+    }
+    function startLead(service=""){
+      resetLead();
+      botState.data.service = service;
+      botState.step = "name";
+      showTyping(()=>{ addMessage(T().leadStart); showButtons([]); });
+    }
+    function validPhone(v){ return v.replace(/[^\\d+]/g,"").length >= 10; }
+    function validArea(v){ const n = parseFloat(String(v).replace(",", ".")); return !isNaN(n) && n > 0; }
+    function fillFallback(){
+      const form = document.getElementById("lead-form");
+      if (!form) return;
+      const nameInput = form.querySelector('input[name="name"]');
+      const phoneInput = form.querySelector('input[name="phone"]');
+      const serviceSelect = form.querySelector('select[name="service"]');
+      if (nameInput) nameInput.value = botState.data.name || "";
+      if (phoneInput) phoneInput.value = botState.data.phone || "";
+      if (serviceSelect && botState.data.service){
+        Array.from(serviceSelect.options).forEach(opt=>{
+          if (opt.value.toLowerCase().includes(botState.data.service.toLowerCase())) serviceSelect.value = opt.value;
+        });
+      }
+      form.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+    async function submitLead(){
+      const form = document.getElementById("lead-form");
+      const endpoint = (form && form.getAttribute("action")) || "/.netlify/functions/send-telegram";
+      const params = new URLSearchParams();
+      params.append("source", lang()==="ua" ? "Чат-бот сайту" : "Чат-бот сайта");
+      params.append("page", lang()==="ua" ? "Головна" : "Главная");
+      params.append("website", "");
+      params.append("name", botState.data.name);
+      params.append("phone", botState.data.phone);
+      params.append("service", botState.data.service);
+      params.append("message", (lang()==="ua" ? "Заявка з чату. Площа: " : "Заявка из чата. Площадь: ") + botState.data.area + " м²");
+
+      chatSendBtn.disabled = true; chatInput.disabled = true;
+      try{
+        const res = await fetch(endpoint, {
+          method:"POST",
+          headers:{"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},
+          body: params.toString()
+        });
+        if(!res.ok) throw new Error("HTTP " + res.status);
+        showTyping(()=>{ addMessage(T().sent(botState.data)); showButtons(lang()==="ua" ? ["Дізнатися вартість","Контакти","Нова заявка"] : ["Узнать стоимость","Контакты","Новая заявка"]); });
+        botState.step = "done";
+      }catch(e){
+        showTyping(()=>{ addMessage(T().fallback); showButtons(lang()==="ua" ? ["Прокрутити до форми","Контакти"] : ["Прокрутить к форме","Контакты"]); });
+        fillFallback();
+      }finally{
+        chatSendBtn.disabled = false; chatInput.disabled = false;
+      }
+    }
+    function finishLead(){
+      showTyping(()=>{ addMessage(T().checking(botState.data)); showButtons([]); });
+      submitLead();
+    }
+    function handleLeadStep(raw){
+      const text = raw.trim();
+      if (botState.step === "name"){
+        botState.data.name = text; botState.step = "phone";
+        showTyping(()=>addMessage(T().askPhone)); return true;
+      }
+      if (botState.step === "phone"){
+        if (!validPhone(text)){ showTyping(()=>addMessage(T().invalidPhone)); return true; }
+        botState.data.phone = text;
+        if (botState.data.service){ botState.step = "area"; showTyping(()=>addMessage(T().askArea)); }
+        else { botState.step = "service"; showTyping(()=>{ addMessage(T().askService); showButtons(T().repairs); }); }
+        return true;
+      }
+      if (botState.step === "service"){
+        botState.data.service = text; botState.step = "area";
+        showTyping(()=>{ addMessage(T().askArea); showButtons([]); }); return true;
+      }
+      if (botState.step === "area"){
+        if (!validArea(text)){ showTyping(()=>addMessage(T().invalidArea)); return true; }
+        botState.data.area = String(text).replace(",", ".").trim();
+        finishLead(); return true;
+      }
+      return false;
+    }
+    function botReply(message){
+      const text = message.toLowerCase().trim();
+      if (handleLeadStep(message)) return;
+
+      if (text.includes("цена") || text.includes("стоимость") || text.includes("прайс") || text.includes("сколько стоит") || text.includes("узнать стоимость") || text.includes("вартість") || text.includes("скільки коштує") || text.includes("дізнатися вартість")){
+        showTyping(()=>{ addMessage(T().price); showButtons(lang()==="ua" ? ["Косметичний","Капітальний","Дизайнерський","Заявка"] : ["Косметический","Капитальный","Дизайнерский","Заявка"]); }); return;
+      }
+      if (text.includes("косметический") || text.includes("косметичний")){ showTyping(()=>addMessage(lang()==="ua" ? "Косметичний ремонт обрано." : "Косметический ремонт выбран.")); startLead(lang()==="ua" ? "Косметичний" : "Косметический"); return; }
+      if (text.includes("капитальный") || text.includes("капітальний")){ showTyping(()=>addMessage(lang()==="ua" ? "Капітальний ремонт обрано." : "Капитальный ремонт выбран.")); startLead(lang()==="ua" ? "Капітальний" : "Капитальный"); return; }
+      if (text.includes("дизайнерский") || text.includes("дизайнерський")){ showTyping(()=>addMessage(lang()==="ua" ? "Дизайнерський ремонт обрано." : "Дизайнерский ремонт выбран.")); startLead(lang()==="ua" ? "Дизайнерський" : "Дизайнерский"); return; }
+      if (text.includes("виды ремонта") || text.includes("види ремонту") || text === "ремонт"){ showTyping(()=>{ addMessage(T().repairsText); showButtons(T().repairs); }); return; }
+      if (text.includes("заявка") || text.includes("нова заявка")){ startLead(); return; }
+      if (text.includes("контакт")){ showTyping(()=>{ addMessage(T().contact); showButtons(lang()==="ua" ? ["Заявка","Дізнатися вартість"] : ["Заявка","Узнать стоимость"]); }); return; }
+      if (text.includes("прокрутить к форме") || text.includes("прокрутити до форми")){ fillFallback(); return; }
+      showTyping(()=>{ addMessage(lang()==="ua" ? "Вітаю! Я допоможу зорієнтуватися у вартості та прийняти заявку прямо в чаті." : "Здравствуйте! Я помогу сориентироваться по стоимости и принять заявку прямо в чате."); showButtons(T().main); });
+    }
+    function handleUserMessage(text){
+      if (!text || !text.trim()) return;
+      addMessage(text, "user");
+      botReply(text);
+    }
+
+    chatLauncher.addEventListener("click", openChat);
+    chatMinimize.addEventListener("click", closeChat);
+    chatClose.addEventListener("click", closeChat);
+    chatSendBtn.addEventListener("click", ()=>{ const text = chatInput.value.trim(); if(!text) return; chatInput.value=""; handleUserMessage(text); });
+    chatInput.addEventListener("keydown", (e)=>{ if(e.key === "Enter"){ e.preventDefault(); chatSendBtn.click(); }});
+
+    document.querySelectorAll(".lang-btn").forEach(btn=>{
+      btn.addEventListener("click", ()=>setTimeout(applyStatic, 60));
+    });
+
+    applyStatic();
+  })();
+  </script>
+
+</body>
+</html>
