@@ -499,31 +499,54 @@
     }
     async function submitLead(){
       const form = document.getElementById("lead-form");
-      const endpoint = (form && form.getAttribute("action")) || "/.netlify/functions/send-telegram";
-      const params = new URLSearchParams();
-      params.append("source", lang()==="ua" ? "Чат-бот сайту" : "Чат-бот сайта");
-      params.append("page", lang()==="ua" ? "Головна" : "Главная");
-      params.append("website", "");
-      params.append("name", botState.data.name);
-      params.append("phone", botState.data.phone);
-      params.append("service", botState.data.service);
-      params.append("message", (lang()==="ua" ? "Заявка з чату. Площа: " : "Заявка из чата. Площадь: ") + botState.data.area + " м²");
+      if (!form) {
+        showTyping(()=>{ addMessage(T().fallback); showButtons(lang()==="ua" ? ["Прокрутити до форми","Контакти"] : ["Прокрутить к форме","Контакты"]); });
+        return;
+      }
 
-      chatSendBtn.disabled = true; chatInput.disabled = true;
+      const nameInput = form.querySelector('input[name="name"]');
+      const phoneInput = form.querySelector('input[name="phone"]');
+      const serviceSelect = form.querySelector('select[name="service"]');
+      const websiteInput = form.querySelector('input[name="website"]');
+      const sourceInput = form.querySelector('input[name="source"]');
+      const pageInput = form.querySelector('input[name="page"]');
+
+      if (nameInput) nameInput.value = botState.data.name || "";
+      if (phoneInput) phoneInput.value = botState.data.phone || "";
+      if (websiteInput) websiteInput.value = "";
+      if (sourceInput) sourceInput.value = lang()==="ua" ? "Чат-бот сайту" : "Чат-бот сайта";
+      if (pageInput) pageInput.value = lang()==="ua" ? "Головна" : "Главная";
+
+      if (serviceSelect && botState.data.service) {
+        const options = Array.from(serviceSelect.options);
+        const match = options.find(opt => opt.value.toLowerCase().includes(botState.data.service.toLowerCase()));
+        if (match) serviceSelect.value = match.value;
+      }
+
+      let msgInput = form.querySelector('textarea[name="message"], input[name="message"]');
+      if (!msgInput) {
+        msgInput = document.createElement("input");
+        msgInput.type = "hidden";
+        msgInput.name = "message";
+        form.appendChild(msgInput);
+      }
+      msgInput.value = (lang()==="ua" ? "Заявка з чату. Площа: " : "Заявка из чата. Площадь: ") + botState.data.area + " м²";
+
+      chatSendBtn.disabled = true;
+      chatInput.disabled = true;
+
       try{
-        const res = await fetch(endpoint, {
-          method:"POST",
-          headers:{"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},
-          body: params.toString()
-        });
-        if(!res.ok) throw new Error("HTTP " + res.status);
+        if (typeof form.requestSubmit === "function") form.requestSubmit();
+        else form.submit();
+
         showTyping(()=>{ addMessage(T().sent(botState.data)); showButtons(lang()==="ua" ? ["Дізнатися вартість","Контакти","Нова заявка"] : ["Узнать стоимость","Контакты","Новая заявка"]); });
         botState.step = "done";
       }catch(e){
         showTyping(()=>{ addMessage(T().fallback); showButtons(lang()==="ua" ? ["Прокрутити до форми","Контакти"] : ["Прокрутить к форме","Контакты"]); });
         fillFallback();
       }finally{
-        chatSendBtn.disabled = false; chatInput.disabled = false;
+        chatSendBtn.disabled = false; 
+        chatInput.disabled = false;
       }
     }
     function finishLead(){
