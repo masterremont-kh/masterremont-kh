@@ -299,7 +299,7 @@
 
   <script src="js/app.js"></script>
 
-  <button class="chat-launcher" id="chatLauncher" type="button" aria-label="Открыть чат">
+  <button class="chat-launcher" id="chatLauncher" type="button" aria-label="Открыть чат" onclick="openChat()">
     <span class="chat-launcher-dot"></span>
     <span id="chatLauncherText">Чат</span>
   </button>
@@ -311,8 +311,8 @@
         <span id="chatSubtitle">Онлайн-консультант</span>
       </div>
       <div class="chat-header-actions">
-        <button class="chat-minimize" id="chatMinimize" type="button" aria-label="Свернуть чат">—</button>
-        <button class="chat-close" id="chatClose" type="button" aria-label="Закрыть чат">×</button>
+        <button class="chat-minimize" id="chatMinimize" type="button" aria-label="Свернуть чат" onclick="closeChat()">—</button>
+        <button class="chat-close" id="chatClose" type="button" aria-label="Закрыть чат" onclick="closeChat()">×</button>
       </div>
     </div>
     <div class="chat-body" id="chatBody"></div>
