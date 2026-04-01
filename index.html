@@ -389,7 +389,7 @@
         askPhone:"Спасибо. Теперь напишите ваш номер телефона.",
         askService:"Выберите тип ремонта.",
         askArea:"Отлично. Теперь напишите площадь объекта в м².",
-        invalidPhone:"Похоже, номер введён не полностью. Напишите телефон ещё раз, например: +380951234567",
+        invalidPhone:"Проверьте номер и отправьте ещё раз. Подойдут форматы: +380951234567, 0953843101",
         invalidArea:"Введите площадь числом, например: 45",
         checking:(d)=>`Проверяю данные:\n\nИмя: ${d.name}\nТелефон: ${d.phone}\nРемонт: ${d.service}\nПлощадь: ${d.area} м²\n\nОтправляю заявку...`,
         sent:(d)=>`Готово ✅\n\nЗаявка отправлена без перехода к форме.\nИмя: ${d.name}\nТелефон: ${d.phone}\nРемонт: ${d.service}\nПлощадь: ${d.area} м²\n\nМы свяжемся с вами в рабочее время.`,
@@ -407,7 +407,7 @@
         askPhone:"Дякую. Тепер напишіть ваш номер телефону.",
         askService:"Оберіть тип ремонту.",
         askArea:"Чудово. Тепер напишіть площу об'єкта в м².",
-        invalidPhone:"Схоже, номер введено не повністю. Напишіть телефон ще раз, наприклад: +380951234567",
+        invalidPhone:"Перевірте номер і надішліть ще раз. Підійдуть формати: +380951234567, 0953843101",
         invalidArea:"Введіть площу числом, наприклад: 45",
         checking:(d)=>`Перевіряю дані:\n\nІм'я: ${d.name}\nТелефон: ${d.phone}\nРемонт: ${d.service}\nПлоща: ${d.area} м²\n\nНадсилаю заявку...`,
         sent:(d)=>`Готово ✅\n\nЗаявку відправлено без переходу до форми.\nІм'я: ${d.name}\nТелефон: ${d.phone}\nРемонт: ${d.service}\nПлоща: ${d.area} м²\n\nМи зв'яжемося з вами у робочий час.`,
@@ -480,7 +480,7 @@
       botState.step = "name";
       showTyping(()=>{ addMessage(T().leadStart); showButtons([]); });
     }
-    function validPhone(v){ return v.replace(/[^\\d+]/g,"").length >= 10; }
+    function validPhone(v){ const cleaned = String(v).replace(/\D/g,""); return cleaned.length >= 5; }
     function validArea(v){ const n = parseFloat(String(v).replace(",", ".")); return !isNaN(n) && n > 0; }
     function fillFallback(){
       const form = document.getElementById("lead-form");
