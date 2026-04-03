@@ -9,6 +9,275 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    .calc-open-btn{
+      display:inline-block;
+      padding:15px 24px;
+      background:#c7a24a;
+      color:#151515;
+      border:none;
+      border-radius:12px;
+      font-weight:700;
+      font-size:16px;
+      cursor:pointer;
+      text-decoration:none;
+      box-shadow:0 10px 24px rgba(0,0,0,.25);
+    }
+
+    #calcModal{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.84);
+      z-index:99999;
+      justify-content:center;
+      align-items:center;
+      padding:18px;
+    }
+
+    #calcModal.active{display:flex}
+    #calcModal *{box-sizing:border-box}
+
+    .calc-modal-box{
+      width:min(1180px,100%);
+      max-height:92vh;
+      overflow:auto;
+      background:linear-gradient(180deg,#0b0c0d 0%, #141619 100%);
+      border:1px solid #2a2d33;
+      border-radius:22px;
+      box-shadow:0 14px 34px rgba(0,0,0,.28);
+      color:#f4efe4;
+      position:relative;
+    }
+
+    .calc-close{
+      position:sticky;
+      top:12px;
+      margin-left:auto;
+      margin-right:12px;
+      margin-top:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:42px;
+      height:42px;
+      border:none;
+      border-radius:999px;
+      background:#c7a24a;
+      color:#171717;
+      font-size:22px;
+      font-weight:700;
+      cursor:pointer;
+      z-index:5;
+    }
+
+    .calc-wrap{max-width:1180px;margin:0 auto;padding:0 18px 18px}
+    .calc-hero{
+      border:1px solid #2a2d33;
+      background:linear-gradient(180deg, rgba(199,162,74,.10), rgba(199,162,74,.03));
+      border-radius:22px;
+      padding:24px;
+      box-shadow:0 14px 34px rgba(0,0,0,.28);
+      margin-bottom:18px;
+    }
+    .calc-kicker{
+      display:inline-block;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#ecd08a;
+      margin-bottom:10px;
+    }
+    .calc-hero h2{
+      margin:0 0 10px;
+      font-size:34px;
+      line-height:1.15;
+      color:#ecd08a;
+    }
+    .calc-hero p{
+      margin:0;
+      color:#b8b09d;
+      line-height:1.55;
+      max-width:900px;
+    }
+    .calc-layout{
+      display:grid;
+      grid-template-columns:1.3fr .7fr;
+      gap:18px;
+    }
+    .calc-card{
+      background:#16181b;
+      border:1px solid #2a2d33;
+      border-radius:22px;
+      padding:18px;
+      box-shadow:0 14px 34px rgba(0,0,0,.28);
+    }
+    .calc-card h3{
+      margin:0 0 14px;
+      color:#ecd08a;
+      font-size:24px;
+    }
+    .calc-row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-bottom:16px;
+    }
+    .calc-field label{
+      display:block;
+      font-weight:700;
+      margin-bottom:8px;
+    }
+    .calc-field input, .calc-field select{
+      width:100%;
+      background:#101114;
+      color:#f4efe4;
+      border:1px solid #2a2d33;
+      border-radius:14px;
+      padding:14px;
+      font-size:16px;
+      outline:none;
+    }
+    .calc-section{
+      margin-top:18px;
+      padding-top:16px;
+      border-top:1px solid #2a2d33;
+    }
+    .calc-section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:12px;
+    }
+    .calc-section-head h4{
+      margin:0;
+      font-size:18px;
+      color:#f4efe4;
+    }
+    .calc-tag{
+      font-size:12px;
+      background:#c7a24a;
+      color:#141414;
+      padding:6px 10px;
+      border-radius:999px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+    .calc-works{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+    .calc-work{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      background:#101114;
+      border:1px solid #2a2d33;
+      border-radius:15px;
+      padding:12px;
+    }
+    .calc-work input{
+      margin-top:4px;
+      transform:scale(1.15);
+      accent-color:#c7a24a;
+      flex:0 0 auto;
+      width:auto;
+    }
+    .calc-work-main{flex:1}
+    .calc-work-name{
+      display:block;
+      font-weight:700;
+      line-height:1.35;
+      margin-bottom:4px;
+    }
+    .calc-work-sub{
+      color:#b8b09d;
+      font-size:13px;
+      line-height:1.4;
+    }
+    .calc-summary{position:sticky;top:14px}
+    .calc-total{
+      font-size:36px;
+      font-weight:800;
+      color:#ecd08a;
+      line-height:1.1;
+      margin:8px 0 12px;
+    }
+    .calc-small{
+      color:#b8b09d;
+      font-size:14px;
+      line-height:1.5;
+    }
+    .calc-list{
+      list-style:none;
+      padding:0;
+      margin:16px 0 0;
+      display:grid;
+      gap:10px;
+    }
+    .calc-list li{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      border-bottom:1px dashed #2a2d33;
+      padding-bottom:10px;
+    }
+    .calc-list li span:last-child{
+      color:#ecd08a;
+      font-weight:700;
+      text-align:right;
+    }
+    .calc-range{
+      margin-top:12px;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid rgba(199,162,74,.22);
+      background:rgba(199,162,74,.08);
+    }
+    .calc-range strong{color:#ecd08a}
+    .calc-note{
+      margin-top:14px;
+      color:#b8b09d;
+      font-size:13px;
+      line-height:1.55;
+    }
+    .calc-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+    }
+    .calc-btn{
+      border:none;
+      border-radius:14px;
+      padding:14px 16px;
+      font-weight:700;
+      cursor:pointer;
+      font-size:15px;
+    }
+    .calc-btn-gold{background:#c7a24a;color:#171717}
+    .calc-btn-dark{background:#22262c;color:#f4efe4;border:1px solid #2a2d33}
+    .calc-footer-note{
+      margin-top:18px;
+      font-size:13px;
+      color:#b8b09d;
+      line-height:1.5;
+    }
+
+    @media (max-width:980px){
+      .calc-layout{grid-template-columns:1fr}
+      .calc-summary{position:static}
+    }
+    @media (max-width:680px){
+      .calc-row,.calc-works{grid-template-columns:1fr}
+      .calc-hero h2{font-size:28px}
+      .calc-total{font-size:30px}
+    }
+  </style>
+
 </head>
 <body>
   <header class="site-header" id="top">
@@ -82,10 +351,10 @@
         </div>
       </div>
     </section>
-<div style="text-align:center; margin:30px 0;">
-  <button onclick="openCalcModal()" class="btn btn-gold">
-    Рассчитать стоимость ремонта
-  </button>
+<div class="container" style="margin-top:18px; margin-bottom:10px;">
+  <div style="display:flex; justify-content:center;">
+    <button class="calc-open-btn" type="button" onclick="openCalcModal()">Рассчитать стоимость ремонта</button>
+  </div>
 </div>
 
 
@@ -620,67 +889,233 @@
   </script>
 
 
-<!-- CALCULATOR POPUP -->
-<div id="calcModal" onclick="closeCalcOutside(event)" style="
-display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);
-z-index:99999;justify-content:center;align-items:center;">
+  <div id="calcModal" onclick="closeCalcOutside(event)">
+    <div class="calc-modal-box">
+      <button class="calc-close" type="button" onclick="closeCalcModal()">×</button>
 
-<div style="width:95%;max-width:900px;max-height:90%;overflow:auto;
-background:#111;border-radius:12px;padding:20px;position:relative;color:#fff;">
+      <div class="calc-wrap">
+        <div class="calc-hero">
+          <div class="calc-kicker">MasterRemont.Kh</div>
+          <h2>Калькулятор предварительной сметы</h2>
+          <p>Клиент выбирает тип ремонта, площадь и нужные виды работ. За основу взята реальная смета на объект около 40 м². Для косметического ремонта коэффициенты снижены, для дизайнерского — повышены.</p>
+        </div>
 
-<button onclick="closeCalcModal()" style="
-position:absolute;top:10px;right:10px;background:#c7a24a;
-border:none;padding:5px 10px;cursor:pointer;">X</button>
+        <div class="calc-layout">
+          <div class="calc-card">
+            <h3>Параметры расчета</h3>
 
-<h2>Калькулятор ремонта</h2>
+            <div class="calc-row">
+              <div class="calc-field">
+                <label for="repairType">Тип ремонта</label>
+                <select id="repairType">
+                  <option value="capital">Капитальный</option>
+                  <option value="cosmetic">Косметический</option>
+                  <option value="designer">Дизайнерский</option>
+                </select>
+              </div>
+              <div class="calc-field">
+                <label for="area">Площадь объекта, м²</label>
+                <input id="area" type="number" min="1" step="1" value="40">
+              </div>
+            </div>
 
-<label>Тип ремонта</label>
-<select id="repairType">
-<option value="capital">Капитальный</option>
-<option value="cosmetic">Косметический</option>
-<option value="designer">Дизайнерский</option>
-</select>
+            <div class="calc-section">
+              <div class="calc-section-head">
+                <h4>Выбери что нужно делать</h4>
+                <span class="calc-tag">без показа цен</span>
+              </div>
 
-<label>Площадь (м²)</label>
-<input type="number" id="area" value="40">
+              <div class="calc-works">
+                <label class="calc-work">
+                  <input type="checkbox" class="calc-work-check" data-key="plaster" checked>
+                  <span class="calc-work-main">
+                    <span class="calc-work-name">Штукатурка</span>
+                    <span class="calc-work-sub">Грунтовка, машинная штукатурка, армирование, защита, заделка стыков</span>
+                  </span>
+                </label>
 
-<br><br>
+                <label class="calc-work">
+                  <input type="checkbox" class="calc-work-check" data-key="electrics" checked>
+                  <span class="calc-work-main">
+                    <span class="calc-work-name">Электрика</span>
+                    <span class="calc-work-sub">Штробы, подрозетники, кабель, щит, автоматы, розетки, теплый пол</span>
+                  </span>
+                </label>
 
-<label><input type="checkbox" class="calc-work-check" data-key="plaster" checked> Штукатурка</label><br>
-<label><input type="checkbox" class="calc-work-check" data-key="electrics" checked> Электрика</label><br>
-<label><input type="checkbox" class="calc-work-check" data-key="plumbingRough" checked> Сантехника черновая</label><br>
-<label><input type="checkbox" class="calc-work-check" data-key="plumbingFinish" checked> Сантехника чистовая</label><br>
-<label><input type="checkbox" class="calc-work-check" data-key="tile" checked> Плитка</label><br>
-<label><input type="checkbox" class="calc-work-check" data-key="paint" checked> Малярка</label><br>
-<label><input type="checkbox" class="calc-work-check" data-key="screed"> Стяжка</label>
+                <label class="calc-work">
+                  <input type="checkbox" class="calc-work-check" data-key="plumbingRough" checked>
+                  <span class="calc-work-main">
+                    <span class="calc-work-name">Сантехника черновая</span>
+                    <span class="calc-work-sub">Трубы, точки воды и канализации, счетчики, арматура, инсталляция</span>
+                  </span>
+                </label>
 
-<br><br>
+                <label class="calc-work">
+                  <input type="checkbox" class="calc-work-check" data-key="plumbingFinish" checked>
+                  <span class="calc-work-main">
+                    <span class="calc-work-name">Сантехника чистовая</span>
+                    <span class="calc-work-sub">Ванна, унитаз, смесители, полотенцесушитель, умывальник, бойлер</span>
+                  </span>
+                </label>
 
-<button onclick="calcEstimate()" class="btn btn-gold">Рассчитать</button>
+                <label class="calc-work">
+                  <input type="checkbox" class="calc-work-check" data-key="tile" checked>
+                  <span class="calc-work-main">
+                    <span class="calc-work-name">Плиточные работы</span>
+                    <span class="calc-work-sub">Гидроизоляция, керамогранит, отверстия, рез, люк, затирка, герметизация</span>
+                  </span>
+                </label>
 
-<h3 id="calcTotal">0 грн</h3>
+                <label class="calc-work">
+                  <input type="checkbox" class="calc-work-check" data-key="paint" checked>
+                  <span class="calc-work-main">
+                    <span class="calc-work-name">Малярка</span>
+                    <span class="calc-work-sub">Подготовка под обои/стеклохолст, финиш под покраску, шлифовка, покраска</span>
+                  </span>
+                </label>
 
-</div>
-</div>
+                <label class="calc-work">
+                  <input type="checkbox" class="calc-work-check" data-key="screed">
+                  <span class="calc-work-main">
+                    <span class="calc-work-name">Стяжка пола</span>
+                    <span class="calc-work-sub">Дополнительная опция, считается отдельно</span>
+                  </span>
+                </label>
+              </div>
+            </div>
 
-<script>
-const base={plaster:51810,electrics:38755,plumbingRough:18836,plumbingFinish:11650,tile:40959,paint:162850,screed:22000};
-const coeff={capital:1,cosmetic:0.6,designer:1.2};
+            <div class="calc-actions">
+              <button class="calc-btn calc-btn-gold" type="button" onclick="calcEstimate()">Рассчитать</button>
+              <button class="calc-btn calc-btn-dark" type="button" onclick="resetCalcEstimate()">Сбросить</button>
+            </div>
 
-function openCalcModal(){document.getElementById('calcModal').style.display='flex';}
-function closeCalcModal(){document.getElementById('calcModal').style.display='none';}
-function closeCalcOutside(e){if(e.target.id==='calcModal') closeCalcModal();}
+            <div class="calc-footer-note">
+              База настроена под объект около 40 м². При 40 м² сумма должна быть близка к реальной базовой смете.
+            </div>
+          </div>
 
-function calcEstimate(){
-let type=document.getElementById('repairType').value;
-let area=document.getElementById('area').value;
-let total=0;
-document.querySelectorAll('.calc-work-check:checked').forEach(el=>{total+=base[el.dataset.key];});
-total=total*(area/40);
-total=total*coeff[type];
-document.getElementById('calcTotal').innerText=Math.round(total).toLocaleString()+' грн';
-}
-</script>
+          <div class="calc-card calc-summary">
+            <h3>Результат</h3>
+            <div class="calc-small">Расчет идет по формуле: базовая смета × (площадь / 40) × коэффициент типа ремонта.</div>
+            <div class="calc-total" id="calcTotal">0 грн</div>
+
+            <ul class="calc-list" id="calcDetails">
+              <li><span>Итог</span><span>0 грн</span></li>
+            </ul>
+
+            <div class="calc-range" id="calcRangeBox">
+              Ориентир для клиента: <strong>0 грн</strong>
+            </div>
+
+            <div class="calc-note">
+              Это предварительный расчет. Точная сумма зависит от фактических размеров, состояния оснований, количества углов, ниш, откосов и дополнительных работ.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const CALC_BASE_AREA = 40;
+    const calcBaseCapital = {
+      plaster: 51810,
+      electrics: 38755,
+      plumbingRough: 18836,
+      plumbingFinish: 11650,
+      tile: 40959,
+      paint: 162850,
+      screed: 22000
+    };
+    const calcTitles = {
+      plaster: 'Штукатурка',
+      electrics: 'Электрика',
+      plumbingRough: 'Сантехника черновая',
+      plumbingFinish: 'Сантехника чистовая',
+      tile: 'Плиточные работы',
+      paint: 'Малярка',
+      screed: 'Стяжка пола'
+    };
+    const calcCoeffs = {
+      capital: { plaster:1, electrics:1, plumbingRough:1, plumbingFinish:1, tile:1, paint:1, screed:1 },
+      cosmetic: { plaster:0.55, electrics:0.35, plumbingRough:0.20, plumbingFinish:0.20, tile:0.15, paint:0.70, screed:0.30 },
+      designer: { plaster:1.12, electrics:1.18, plumbingRough:1.15, plumbingFinish:1.20, tile:1.22, paint:1.18, screed:1.10 }
+    };
+
+    function calcFmt(n){ return Math.round(n).toLocaleString('ru-RU') + ' грн'; }
+
+    function openCalcModal(){
+      const modal = document.getElementById('calcModal');
+      if(modal){
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeCalcModal(){
+      const modal = document.getElementById('calcModal');
+      if(modal){
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function closeCalcOutside(event){
+      if(event.target && event.target.id === 'calcModal'){
+        closeCalcModal();
+      }
+    }
+
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') closeCalcModal();
+    });
+
+    function calcEstimate(){
+      const type = document.getElementById('repairType').value;
+      const area = Number(document.getElementById('area').value) || CALC_BASE_AREA;
+      const factor = area / CALC_BASE_AREA;
+      const checks = [...document.querySelectorAll('.calc-work-check:checked')];
+      const details = document.getElementById('calcDetails');
+
+      let total = 0;
+      details.innerHTML = '';
+
+      checks.forEach(item => {
+        const key = item.dataset.key;
+        const part = (calcBaseCapital[key] || 0) * (calcCoeffs[type][key] || 1) * factor;
+        total += part;
+        const li = document.createElement('li');
+        li.innerHTML = '<span>' + calcTitles[key] + '</span><span>' + calcFmt(part) + '</span>';
+        details.appendChild(li);
+      });
+
+      if(checks.length === 0){
+        details.innerHTML = '<li><span>Ничего не выбрано</span><span>0 грн</span></li>';
+      } else {
+        const totalLi = document.createElement('li');
+        totalLi.innerHTML = '<span><strong>Итого ориентировочно</strong></span><span><strong>' + calcFmt(total) + '</strong></span>';
+        details.appendChild(totalLi);
+      }
+
+      document.getElementById('calcTotal').textContent = calcFmt(total);
+      const min = total * 0.95;
+      const max = total * 1.10;
+      document.getElementById('calcRangeBox').innerHTML = 'Ориентир для клиента: <strong>' + calcFmt(min) + ' — ' + calcFmt(max) + '</strong>';
+    }
+
+    function resetCalcEstimate(){
+      document.getElementById('repairType').value = 'capital';
+      document.getElementById('area').value = 40;
+      document.querySelectorAll('.calc-work-check').forEach(el => {
+        el.checked = ['plaster','electrics','plumbingRough','plumbingFinish','tile','paint'].includes(el.dataset.key);
+      });
+      calcEstimate();
+    }
+
+    document.addEventListener('DOMContentLoaded', function(){
+      resetCalcEstimate();
+    });
+  </script>
 
 </body>
 </html>
