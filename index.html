@@ -11,18 +11,10 @@
   <link rel="stylesheet" href="css/styles.css">
 
   <style>
-    .calc-open-btn{
-      display:inline-block;
-      padding:15px 24px;
-      background:#c7a24a;
-      color:#151515;
+    .calc-hero-open{
       border:none;
-      border-radius:12px;
-      font-weight:700;
-      font-size:16px;
       cursor:pointer;
-      text-decoration:none;
-      box-shadow:0 10px 24px rgba(0,0,0,.25);
+      font:inherit;
     }
 
     #calcModal{
@@ -35,7 +27,6 @@
       align-items:center;
       padding:18px;
     }
-
     #calcModal.active{display:flex}
     #calcModal *{box-sizing:border-box}
 
@@ -330,7 +321,7 @@
           </div>
 
           <div class="hero-actions">
-            <a class="btn btn-gold" href="#lead-form" data-i18n="hero.ctaPrimary">Получить расчет</a>
+            <button class="btn btn-gold calc-hero-open" type="button" onclick="openCalcModal()" data-calc-i18n="openButton">Калькулятор приблизительной стоимости ремонта</button>
             <a class="btn btn-outline" href="#works" data-i18n="hero.ctaSecondary">Смотреть работы</a>
           </div>
 
@@ -351,12 +342,6 @@
         </div>
       </div>
     </section>
-<div class="container" style="margin-top:18px; margin-bottom:10px;">
-  <div style="display:flex; justify-content:center;">
-    <button class="calc-open-btn" type="button" onclick="openCalcModal()">Рассчитать стоимость ремонта</button>
-  </div>
-</div>
-
 
     <section class="lead-strip">
       <div class="container lead-strip-grid">
@@ -896,118 +881,118 @@
       <div class="calc-wrap">
         <div class="calc-hero">
           <div class="calc-kicker">MasterRemont.Kh</div>
-          <h2>Калькулятор предварительной сметы</h2>
-          <p>Клиент выбирает тип ремонта, площадь и нужные виды работ. За основу взята реальная смета на объект около 40 м². Для косметического ремонта коэффициенты снижены, для дизайнерского — повышены.</p>
+          <h2 data-calc-i18n="modalTitle">Калькулятор приблизительной стоимости ремонта</h2>
+          <p data-calc-i18n="modalText">Клиент выбирает тип ремонта, площадь и нужные виды работ. За основу взята реальная смета на объект около 40 м². Для косметического ремонта коэффициенты снижены, для дизайнерского — повышены.</p>
         </div>
 
         <div class="calc-layout">
           <div class="calc-card">
-            <h3>Параметры расчета</h3>
+            <h3 data-calc-i18n="paramsTitle">Параметры расчета</h3>
 
             <div class="calc-row">
               <div class="calc-field">
-                <label for="repairType">Тип ремонта</label>
+                <label for="repairType" data-calc-i18n="repairTypeLabel">Тип ремонта</label>
                 <select id="repairType">
-                  <option value="capital">Капитальный</option>
-                  <option value="cosmetic">Косметический</option>
-                  <option value="designer">Дизайнерский</option>
+                  <option value="capital" data-calc-i18n="repairCapital">Капитальный</option>
+                  <option value="cosmetic" data-calc-i18n="repairCosmetic">Косметический</option>
+                  <option value="designer" data-calc-i18n="repairDesigner">Дизайнерский</option>
                 </select>
               </div>
               <div class="calc-field">
-                <label for="area">Площадь объекта, м²</label>
+                <label for="area" data-calc-i18n="areaLabel">Площадь объекта, м²</label>
                 <input id="area" type="number" min="1" step="1" value="40">
               </div>
             </div>
 
             <div class="calc-section">
               <div class="calc-section-head">
-                <h4>Выбери что нужно делать</h4>
-                <span class="calc-tag">без показа цен</span>
+                <h4 data-calc-i18n="chooseWorks">Выбери что нужно делать</h4>
+                <span class="calc-tag" data-calc-i18n="noPrices">без показа цен</span>
               </div>
 
               <div class="calc-works">
                 <label class="calc-work">
                   <input type="checkbox" class="calc-work-check" data-key="plaster" checked>
                   <span class="calc-work-main">
-                    <span class="calc-work-name">Штукатурка</span>
-                    <span class="calc-work-sub">Грунтовка, машинная штукатурка, армирование, защита, заделка стыков</span>
+                    <span class="calc-work-name" data-calc-i18n="workPlaster">Штукатурка</span>
+                    <span class="calc-work-sub" data-calc-i18n="workPlasterSub">Грунтовка, машинная штукатурка, армирование, защита, заделка стыков</span>
                   </span>
                 </label>
 
                 <label class="calc-work">
                   <input type="checkbox" class="calc-work-check" data-key="electrics" checked>
                   <span class="calc-work-main">
-                    <span class="calc-work-name">Электрика</span>
-                    <span class="calc-work-sub">Штробы, подрозетники, кабель, щит, автоматы, розетки, теплый пол</span>
+                    <span class="calc-work-name" data-calc-i18n="workElectrics">Электрика</span>
+                    <span class="calc-work-sub" data-calc-i18n="workElectricsSub">Штробы, подрозетники, кабель, щит, автоматы, розетки, теплый пол</span>
                   </span>
                 </label>
 
                 <label class="calc-work">
                   <input type="checkbox" class="calc-work-check" data-key="plumbingRough" checked>
                   <span class="calc-work-main">
-                    <span class="calc-work-name">Сантехника черновая</span>
-                    <span class="calc-work-sub">Трубы, точки воды и канализации, счетчики, арматура, инсталляция</span>
+                    <span class="calc-work-name" data-calc-i18n="workPlumbingRough">Сантехника черновая</span>
+                    <span class="calc-work-sub" data-calc-i18n="workPlumbingRoughSub">Трубы, точки воды и канализации, счетчики, арматура, инсталляция</span>
                   </span>
                 </label>
 
                 <label class="calc-work">
                   <input type="checkbox" class="calc-work-check" data-key="plumbingFinish" checked>
                   <span class="calc-work-main">
-                    <span class="calc-work-name">Сантехника чистовая</span>
-                    <span class="calc-work-sub">Ванна, унитаз, смесители, полотенцесушитель, умывальник, бойлер</span>
+                    <span class="calc-work-name" data-calc-i18n="workPlumbingFinish">Сантехника чистовая</span>
+                    <span class="calc-work-sub" data-calc-i18n="workPlumbingFinishSub">Ванна, унитаз, смесители, полотенцесушитель, умывальник, бойлер</span>
                   </span>
                 </label>
 
                 <label class="calc-work">
                   <input type="checkbox" class="calc-work-check" data-key="tile" checked>
                   <span class="calc-work-main">
-                    <span class="calc-work-name">Плиточные работы</span>
-                    <span class="calc-work-sub">Гидроизоляция, керамогранит, отверстия, рез, люк, затирка, герметизация</span>
+                    <span class="calc-work-name" data-calc-i18n="workTile">Плиточные работы</span>
+                    <span class="calc-work-sub" data-calc-i18n="workTileSub">Гидроизоляция, керамогранит, отверстия, рез, люк, затирка, герметизация</span>
                   </span>
                 </label>
 
                 <label class="calc-work">
                   <input type="checkbox" class="calc-work-check" data-key="paint" checked>
                   <span class="calc-work-main">
-                    <span class="calc-work-name">Малярка</span>
-                    <span class="calc-work-sub">Подготовка под обои/стеклохолст, финиш под покраску, шлифовка, покраска</span>
+                    <span class="calc-work-name" data-calc-i18n="workPaint">Малярка</span>
+                    <span class="calc-work-sub" data-calc-i18n="workPaintSub">Подготовка под обои/стеклохолст, финиш под покраску, шлифовка, покраска</span>
                   </span>
                 </label>
 
                 <label class="calc-work">
                   <input type="checkbox" class="calc-work-check" data-key="screed">
                   <span class="calc-work-main">
-                    <span class="calc-work-name">Стяжка пола</span>
-                    <span class="calc-work-sub">Дополнительная опция, считается отдельно</span>
+                    <span class="calc-work-name" data-calc-i18n="workScreed">Стяжка пола</span>
+                    <span class="calc-work-sub" data-calc-i18n="workScreedSub">Дополнительная опция, считается отдельно</span>
                   </span>
                 </label>
               </div>
             </div>
 
             <div class="calc-actions">
-              <button class="calc-btn calc-btn-gold" type="button" onclick="calcEstimate()">Рассчитать</button>
-              <button class="calc-btn calc-btn-dark" type="button" onclick="resetCalcEstimate()">Сбросить</button>
+              <button class="calc-btn calc-btn-gold" type="button" onclick="calcEstimate()" data-calc-i18n="calculate">Рассчитать</button>
+              <button class="calc-btn calc-btn-dark" type="button" onclick="resetCalcEstimate()" data-calc-i18n="reset">Сбросить</button>
             </div>
 
-            <div class="calc-footer-note">
+            <div class="calc-footer-note" data-calc-i18n="footerNote">
               База настроена под объект около 40 м². При 40 м² сумма должна быть близка к реальной базовой смете.
             </div>
           </div>
 
           <div class="calc-card calc-summary">
-            <h3>Результат</h3>
-            <div class="calc-small">Расчет идет по формуле: базовая смета × (площадь / 40) × коэффициент типа ремонта.</div>
+            <h3 data-calc-i18n="resultTitle">Результат</h3>
+            <div class="calc-small" data-calc-i18n="resultText">Расчет идет по формуле: базовая смета × (площадь / 40) × коэффициент типа ремонта.</div>
             <div class="calc-total" id="calcTotal">0 грн</div>
 
             <ul class="calc-list" id="calcDetails">
-              <li><span>Итог</span><span>0 грн</span></li>
+              <li><span data-calc-i18n="resultItem">Итог</span><span>0 грн</span></li>
             </ul>
 
             <div class="calc-range" id="calcRangeBox">
-              Ориентир для клиента: <strong>0 грн</strong>
+              <span data-calc-i18n="rangePrefix">Ориентир для клиента:</span> <strong>0 грн</strong>
             </div>
 
-            <div class="calc-note">
+            <div class="calc-note" data-calc-i18n="resultNote">
               Это предварительный расчет. Точная сумма зависит от фактических размеров, состояния оснований, количества углов, ниш, откосов и дополнительных работ.
             </div>
           </div>
@@ -1027,22 +1012,132 @@
       paint: 162850,
       screed: 22000
     };
+
     const calcTitles = {
-      plaster: 'Штукатурка',
-      electrics: 'Электрика',
-      plumbingRough: 'Сантехника черновая',
-      plumbingFinish: 'Сантехника чистовая',
-      tile: 'Плиточные работы',
-      paint: 'Малярка',
-      screed: 'Стяжка пола'
+      ru: {
+        plaster: 'Штукатурка',
+        electrics: 'Электрика',
+        plumbingRough: 'Сантехника черновая',
+        plumbingFinish: 'Сантехника чистовая',
+        tile: 'Плиточные работы',
+        paint: 'Малярка',
+        screed: 'Стяжка пола',
+        total: 'Итого ориентировочно',
+        nothing: 'Ничего не выбрано',
+        range: 'Ориентир для клиента:'
+      },
+      ua: {
+        plaster: 'Штукатурка',
+        electrics: 'Електрика',
+        plumbingRough: 'Сантехніка чорнова',
+        plumbingFinish: 'Сантехніка чистова',
+        tile: 'Плиткові роботи',
+        paint: 'Малярка',
+        screed: 'Стяжка підлоги',
+        total: 'Орієнтовно разом',
+        nothing: 'Нічого не вибрано',
+        range: 'Орієнтир для клієнта:'
+      }
     };
+
     const calcCoeffs = {
       capital: { plaster:1, electrics:1, plumbingRough:1, plumbingFinish:1, tile:1, paint:1, screed:1 },
       cosmetic: { plaster:0.55, electrics:0.35, plumbingRough:0.20, plumbingFinish:0.20, tile:0.15, paint:0.70, screed:0.30 },
       designer: { plaster:1.12, electrics:1.18, plumbingRough:1.15, plumbingFinish:1.20, tile:1.22, paint:1.18, screed:1.10 }
     };
 
-    function calcFmt(n){ return Math.round(n).toLocaleString('ru-RU') + ' грн'; }
+    const calcText = {
+      ru: {
+        openButton: 'Калькулятор приблизительной стоимости ремонта',
+        modalTitle: 'Калькулятор приблизительной стоимости ремонта',
+        modalText: 'Клиент выбирает тип ремонта, площадь и нужные виды работ. За основу взята реальная смета на объект около 40 м². Для косметического ремонта коэффициенты снижены, для дизайнерского — повышены.',
+        paramsTitle: 'Параметры расчета',
+        repairTypeLabel: 'Тип ремонта',
+        repairCapital: 'Капитальный',
+        repairCosmetic: 'Косметический',
+        repairDesigner: 'Дизайнерский',
+        areaLabel: 'Площадь объекта, м²',
+        chooseWorks: 'Выбери что нужно делать',
+        noPrices: 'без показа цен',
+        workPlaster: 'Штукатурка',
+        workPlasterSub: 'Грунтовка, машинная штукатурка, армирование, защита, заделка стыков',
+        workElectrics: 'Электрика',
+        workElectricsSub: 'Штробы, подрозетники, кабель, щит, автоматы, розетки, теплый пол',
+        workPlumbingRough: 'Сантехника черновая',
+        workPlumbingRoughSub: 'Трубы, точки воды и канализации, счетчики, арматура, инсталляция',
+        workPlumbingFinish: 'Сантехника чистовая',
+        workPlumbingFinishSub: 'Ванна, унитаз, смесители, полотенцесушитель, умывальник, бойлер',
+        workTile: 'Плиточные работы',
+        workTileSub: 'Гидроизоляция, керамогранит, отверстия, рез, люк, затирка, герметизация',
+        workPaint: 'Малярка',
+        workPaintSub: 'Подготовка под обои/стеклохолст, финиш под покраску, шлифовка, покраска',
+        workScreed: 'Стяжка пола',
+        workScreedSub: 'Дополнительная опция, считается отдельно',
+        calculate: 'Рассчитать',
+        reset: 'Сбросить',
+        footerNote: 'База настроена под объект около 40 м². При 40 м² сумма должна быть близка к реальной базовой смете.',
+        resultTitle: 'Результат',
+        resultText: 'Расчет идет по формуле: базовая смета × (площадь / 40) × коэффициент типа ремонта.',
+        resultItem: 'Итог',
+        rangePrefix: 'Ориентир для клиента:',
+        resultNote: 'Это предварительный расчет. Точная сумма зависит от фактических размеров, состояния оснований, количества углов, ниш, откосов и дополнительных работ.'
+      },
+      ua: {
+        openButton: 'Калькулятор приблизної вартості ремонту',
+        modalTitle: 'Калькулятор приблизної вартості ремонту',
+        modalText: 'Клієнт обирає тип ремонту, площу та потрібні види робіт. За основу взято реальний кошторис на об’єкт близько 40 м². Для косметичного ремонту коефіцієнти знижені, для дизайнерського — підвищені.',
+        paramsTitle: 'Параметри розрахунку',
+        repairTypeLabel: 'Тип ремонту',
+        repairCapital: 'Капітальний',
+        repairCosmetic: 'Косметичний',
+        repairDesigner: 'Дизайнерський',
+        areaLabel: 'Площа об’єкта, м²',
+        chooseWorks: 'Оберіть потрібні роботи',
+        noPrices: 'без показу цін',
+        workPlaster: 'Штукатурка',
+        workPlasterSub: 'Ґрунтовка, машинна штукатурка, армування, захист, закладення стиків',
+        workElectrics: 'Електрика',
+        workElectricsSub: 'Штроби, підрозетники, кабель, щит, автомати, розетки, тепла підлога',
+        workPlumbingRough: 'Сантехніка чорнова',
+        workPlumbingRoughSub: 'Труби, точки води та каналізації, лічильники, арматура, інсталяція',
+        workPlumbingFinish: 'Сантехніка чистова',
+        workPlumbingFinishSub: 'Ванна, унітаз, змішувачі, рушникосушка, умивальник, бойлер',
+        workTile: 'Плиткові роботи',
+        workTileSub: 'Гідроізоляція, керамограніт, отвори, різ, люк, затирка, герметизація',
+        workPaint: 'Малярка',
+        workPaintSub: 'Підготовка під шпалери/склополотно, фініш під фарбування, шліфування, фарбування',
+        workScreed: 'Стяжка підлоги',
+        workScreedSub: 'Додаткова опція, рахується окремо',
+        calculate: 'Розрахувати',
+        reset: 'Скинути',
+        footerNote: 'База налаштована під об’єкт близько 40 м². При 40 м² сума має бути близькою до реального базового кошторису.',
+        resultTitle: 'Результат',
+        resultText: 'Розрахунок іде за формулою: базовий кошторис × (площа / 40) × коефіцієнт типу ремонту.',
+        resultItem: 'Підсумок',
+        rangePrefix: 'Орієнтир для клієнта:',
+        resultNote: 'Це попередній розрахунок. Точна сума залежить від фактичних розмірів, стану основ, кількості кутів, ніш, укосів та додаткових робіт.'
+      }
+    };
+
+    function currentCalcLang(){
+      const active = document.querySelector('.lang-btn.active');
+      if(active && active.dataset.lang) return active.dataset.lang === 'ua' ? 'ua' : 'ru';
+      const htmlLang = (document.documentElement.lang || 'ru').toLowerCase();
+      return (htmlLang.startsWith('ua') || htmlLang.startsWith('uk')) ? 'ua' : 'ru';
+    }
+
+    function applyCalcLanguage(){
+      const lang = currentCalcLang();
+      document.querySelectorAll('[data-calc-i18n]').forEach(el => {
+        const key = el.getAttribute('data-calc-i18n');
+        if(calcText[lang] && calcText[lang][key]) el.textContent = calcText[lang][key];
+      });
+      calcEstimate();
+    }
+
+    function calcFmt(n){
+      return Math.round(n).toLocaleString(currentCalcLang() === 'ua' ? 'uk-UA' : 'ru-RU') + ' грн';
+    }
 
     function openCalcModal(){
       const modal = document.getElementById('calcModal');
@@ -1071,6 +1166,7 @@
     });
 
     function calcEstimate(){
+      const lang = currentCalcLang();
       const type = document.getElementById('repairType').value;
       const area = Number(document.getElementById('area').value) || CALC_BASE_AREA;
       const factor = area / CALC_BASE_AREA;
@@ -1085,22 +1181,22 @@
         const part = (calcBaseCapital[key] || 0) * (calcCoeffs[type][key] || 1) * factor;
         total += part;
         const li = document.createElement('li');
-        li.innerHTML = '<span>' + calcTitles[key] + '</span><span>' + calcFmt(part) + '</span>';
+        li.innerHTML = '<span>' + calcTitles[lang][key] + '</span><span>' + calcFmt(part) + '</span>';
         details.appendChild(li);
       });
 
       if(checks.length === 0){
-        details.innerHTML = '<li><span>Ничего не выбрано</span><span>0 грн</span></li>';
+        details.innerHTML = '<li><span>' + calcTitles[lang].nothing + '</span><span>0 грн</span></li>';
       } else {
         const totalLi = document.createElement('li');
-        totalLi.innerHTML = '<span><strong>Итого ориентировочно</strong></span><span><strong>' + calcFmt(total) + '</strong></span>';
+        totalLi.innerHTML = '<span><strong>' + calcTitles[lang].total + '</strong></span><span><strong>' + calcFmt(total) + '</strong></span>';
         details.appendChild(totalLi);
       }
 
       document.getElementById('calcTotal').textContent = calcFmt(total);
       const min = total * 0.95;
       const max = total * 1.10;
-      document.getElementById('calcRangeBox').innerHTML = 'Ориентир для клиента: <strong>' + calcFmt(min) + ' — ' + calcFmt(max) + '</strong>';
+      document.getElementById('calcRangeBox').innerHTML = calcTitles[lang].range + ' <strong>' + calcFmt(min) + ' — ' + calcFmt(max) + '</strong>';
     }
 
     function resetCalcEstimate(){
@@ -1114,6 +1210,13 @@
 
     document.addEventListener('DOMContentLoaded', function(){
       resetCalcEstimate();
+      applyCalcLanguage();
+
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', function(){
+          setTimeout(applyCalcLanguage, 50);
+        });
+      });
     });
   </script>
 
