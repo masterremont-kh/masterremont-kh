@@ -82,6 +82,12 @@
         </div>
       </div>
     </section>
+<div style="text-align:center; margin:30px 0;">
+  <button onclick="openCalcModal()" class="btn btn-gold">
+    Рассчитать стоимость ремонта
+  </button>
+</div>
+
 
     <section class="lead-strip">
       <div class="container lead-strip-grid">
@@ -207,6 +213,9 @@
           <h2 data-i18n="plist.title">Прайс-лист 2026</h2>
         </div>
         
+<div class="plist-intro">
+          <p data-i18n="plist.intro">Прайс встроен в сайт в том же стиле: основные разделы вынесены в отдельные карточки.</p>
+        </div>
         <div class="plist-intro">
           <p data-i18n="plist.intro">Ниже — три основные группы работ из актуального прайса. Полную версию можно скачать в PDF.</p>
         </div>
@@ -609,6 +618,69 @@
     applyStatic();
   })();
   </script>
+
+
+<!-- CALCULATOR POPUP -->
+<div id="calcModal" onclick="closeCalcOutside(event)" style="
+display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);
+z-index:99999;justify-content:center;align-items:center;">
+
+<div style="width:95%;max-width:900px;max-height:90%;overflow:auto;
+background:#111;border-radius:12px;padding:20px;position:relative;color:#fff;">
+
+<button onclick="closeCalcModal()" style="
+position:absolute;top:10px;right:10px;background:#c7a24a;
+border:none;padding:5px 10px;cursor:pointer;">X</button>
+
+<h2>Калькулятор ремонта</h2>
+
+<label>Тип ремонта</label>
+<select id="repairType">
+<option value="capital">Капитальный</option>
+<option value="cosmetic">Косметический</option>
+<option value="designer">Дизайнерский</option>
+</select>
+
+<label>Площадь (м²)</label>
+<input type="number" id="area" value="40">
+
+<br><br>
+
+<label><input type="checkbox" class="calc-work-check" data-key="plaster" checked> Штукатурка</label><br>
+<label><input type="checkbox" class="calc-work-check" data-key="electrics" checked> Электрика</label><br>
+<label><input type="checkbox" class="calc-work-check" data-key="plumbingRough" checked> Сантехника черновая</label><br>
+<label><input type="checkbox" class="calc-work-check" data-key="plumbingFinish" checked> Сантехника чистовая</label><br>
+<label><input type="checkbox" class="calc-work-check" data-key="tile" checked> Плитка</label><br>
+<label><input type="checkbox" class="calc-work-check" data-key="paint" checked> Малярка</label><br>
+<label><input type="checkbox" class="calc-work-check" data-key="screed"> Стяжка</label>
+
+<br><br>
+
+<button onclick="calcEstimate()" class="btn btn-gold">Рассчитать</button>
+
+<h3 id="calcTotal">0 грн</h3>
+
+</div>
+</div>
+
+<script>
+const base={plaster:51810,electrics:38755,plumbingRough:18836,plumbingFinish:11650,tile:40959,paint:162850,screed:22000};
+const coeff={capital:1,cosmetic:0.6,designer:1.2};
+
+function openCalcModal(){document.getElementById('calcModal').style.display='flex';}
+function closeCalcModal(){document.getElementById('calcModal').style.display='none';}
+function closeCalcOutside(e){if(e.target.id==='calcModal') closeCalcModal();}
+
+function calcEstimate(){
+let type=document.getElementById('repairType').value;
+let area=document.getElementById('area').value;
+let total=0;
+document.querySelectorAll('.calc-work-check:checked').forEach(el=>{total+=base[el.dataset.key];});
+total=total*(area/40);
+total=total*coeff[type];
+document.getElementById('calcTotal').innerText=Math.round(total).toLocaleString()+' грн';
+}
+</script>
 
 </body>
 </html>
